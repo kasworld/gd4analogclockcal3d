@@ -7,6 +7,7 @@
 script = ExtResource("1_cjool")
 
 [node name="AnalogClock3d" parent="." instance=ExtResource("1_d6kav")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 50, 0)

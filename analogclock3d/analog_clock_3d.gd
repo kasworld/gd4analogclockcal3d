@@ -7,28 +7,27 @@ var minute_hand_base :Node3D
 var second_hand_base :Node3D
 
 func _ready() -> void:
-	make_hands()
+	make_hands(36)
 	make_dial(36, Color.WHITE)
 
 func _process(delta: float) -> void:
 	update_clock()
 
-func make_hands()->void:
+func make_hands(r :float)->void:
 	var bar_color = Color.WHITE
 	var mat = MatCache.get_color_mat(bar_color)
-	mat.emission_enabled = true
-	mat.emission = bar_color
-	var center = new_cylinder(1,1,1, mat)
+	var center = new_cylinder(r/30,1,1, mat)
+	center.position.y = 0
 	add_child(center)
 
-	hour_hand_base = make_hand(Color.BLUE,Vector3(30,0.1,1))
-	hour_hand_base.position.y = 0.1*1
+	hour_hand_base = make_hand(Color.BLUE,Vector3(30,r/180,1))
+	hour_hand_base.position.y = r/180*0
 
-	minute_hand_base = make_hand(Color.GREEN,Vector3(40,0.1,0.7))
-	minute_hand_base.position.y = 0.1*2
+	minute_hand_base = make_hand(Color.GREEN,Vector3(40,r/180,0.7))
+	minute_hand_base.position.y = r/180*1
 
-	second_hand_base = make_hand(Color.RED,Vector3(50,0.1,0.5))
-	second_hand_base.position.y = 0.1*3
+	second_hand_base = make_hand(Color.RED,Vector3(50,r/180,0.5))
+	second_hand_base.position.y = r/180*2
 
 func make_hand(co :Color, size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
@@ -43,42 +42,56 @@ func make_hand(co :Color, size: Vector3)->Node3D:
 	return hand_base
 
 func make_dial(r :float, co :Color):
-	var mat = MatCache.get_color_mat(co)
-	mat.emission_enabled = true
-	mat.emission = co
+	var mat = MatCache.get_color_mat(co.darkened(0.1))
+	var num_mat = MatCache.get_color_mat(co.darkened(0.5))
 	for i in 360 :
-		var bar_center = Vector3(sin(deg2rad(i+90))*r,0, cos(deg2rad(i+90))*r)
-		var bar_rot = deg2rad(i)
+		var bar_center = Vector3(sin(deg2rad(-i+90))*r,0, cos(deg2rad(-i+90))*r)
+		var bar_rot = deg2rad(-i)
 		if i == 0:
-			var bar_size = Vector3(3,0.1,0.3)
+			var bar_size = Vector3(3,r/60,0.3)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center
 			add_child(bar)
+			add_child(new_dial_num(r,bar_center, num_mat,"12"))
+
 		elif i % 90 ==0:
-			var bar_size = Vector3(2.5,0.1,0.25)
+			var bar_size = Vector3(2.5,r/60,0.25)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*1.01
 			add_child(bar)
+			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
+
 		elif i % 30 == 0 :
-			var bar_size = Vector3(1.5,0.1,0.2)
+			var bar_size = Vector3(1.5,r/60,0.2)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*1.02
 			add_child(bar)
+			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
+
 		elif i % 6 == 0 :
-			var bar_size = Vector3(0.7,0.1,0.15)
+			var bar_size = Vector3(0.7,r/60,0.15)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*1.035
 			add_child(bar)
 		else :
-			var bar_size = Vector3(0.2,0.1,0.15)
+			var bar_size = Vector3(0.2,r/60,0.15)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*1.04
 			add_child(bar)
+
+
+func new_dial_num(r :float, p :Vector3, mat :Material, text :String)->MeshInstance3D:
+	var t = new_text(r/2, mat, text)
+	t.rotation.x = deg2rad(-90)
+	#t.rotation.y = deg2rad(90)
+	t.rotation.z = deg2rad(-90)
+	t.position = p *0.9
+	return t
 
 
 func new_box(hand_size :Vector3, mat :Material)->MeshInstance3D:
@@ -104,6 +117,17 @@ func new_cylinder(h :float, r1 :float, r2 :float, mat :Material)->MeshInstance3D
 	mesh.height = h
 	mesh.bottom_radius = r1
 	mesh.top_radius = r2
+	mesh.material = mat
+	var sp = MeshInstance3D.new()
+	sp.mesh = mesh
+	return sp
+
+func new_text(h :float, mat :Material, text :String)->MeshInstance3D:
+	var mesh = TextMesh.new()
+	mesh.depth = h / 30
+	mesh.pixel_size = h / 50
+	mesh.font_size = h
+	mesh.text = text
 	mesh.material = mat
 	var sp = MeshInstance3D.new()
 	sp.mesh = mesh
