@@ -6,9 +6,9 @@ var hour_hand_base :Node3D
 var minute_hand_base :Node3D
 var second_hand_base :Node3D
 
-func _ready() -> void:
-	make_hands(36)
-	make_dial(36, Color.WHITE)
+func init(r :float) -> void:
+	make_hands(r)
+	make_dial(r, Color.WHITE)
 
 func _process(delta: float) -> void:
 	update_clock()
@@ -16,17 +16,17 @@ func _process(delta: float) -> void:
 func make_hands(r :float)->void:
 	var bar_color = Color.WHITE
 	var mat = MatCache.get_color_mat(bar_color)
-	var center = new_cylinder(r/30,1,1, mat)
+	var center = new_cylinder(r/30,r/36,r/36, mat)
 	center.position.y = 0
 	add_child(center)
 
-	hour_hand_base = make_hand(Color.BLUE,Vector3(30,r/180,1))
+	hour_hand_base = make_hand(Color.BLUE,Vector3(r*0.9,r/180,r/36))
 	hour_hand_base.position.y = r/180*0
 
-	minute_hand_base = make_hand(Color.GREEN,Vector3(40,r/180,0.7))
+	minute_hand_base = make_hand(Color.GREEN,Vector3(r*1.1,r/180,r/54))
 	minute_hand_base.position.y = r/180*1
 
-	second_hand_base = make_hand(Color.RED,Vector3(50,r/180,0.5))
+	second_hand_base = make_hand(Color.RED,Vector3(r*1.2,r/180,r/72))
 	second_hand_base.position.y = r/180*2
 
 func make_hand(co :Color, size: Vector3)->Node3D:
@@ -48,7 +48,7 @@ func make_dial(r :float, co :Color):
 		var bar_center = Vector3(sin(deg2rad(-i+90))*r,0, cos(deg2rad(-i+90))*r)
 		var bar_rot = deg2rad(-i)
 		if i == 0:
-			var bar_size = Vector3(3,r/60,0.3)
+			var bar_size = Vector3(r/12,r/60,r/120)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center
@@ -56,7 +56,7 @@ func make_dial(r :float, co :Color):
 			add_child(new_dial_num(r,bar_center, num_mat,"12"))
 
 		elif i % 90 ==0:
-			var bar_size = Vector3(2.5,r/60,0.25)
+			var bar_size = Vector3(r/18,r/60,r/180)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*1.01
@@ -64,7 +64,7 @@ func make_dial(r :float, co :Color):
 			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
 
 		elif i % 30 == 0 :
-			var bar_size = Vector3(1.5,r/60,0.2)
+			var bar_size = Vector3(r/24,r/60,r/240)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*1.02
@@ -72,16 +72,16 @@ func make_dial(r :float, co :Color):
 			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
 
 		elif i % 6 == 0 :
-			var bar_size = Vector3(0.7,r/60,0.15)
+			var bar_size = Vector3(r/48,r/60,r/480)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
-			bar.position = bar_center*1.035
+			bar.position = bar_center*1.03
 			add_child(bar)
 		else :
-			var bar_size = Vector3(0.2,r/60,0.15)
+			var bar_size = Vector3(r/72,r/60,r/720)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
-			bar.position = bar_center*1.04
+			bar.position = bar_center*1.03
 			add_child(bar)
 
 
