@@ -8,7 +8,7 @@ var second_hand_base :Node3D
 
 func _ready() -> void:
 	make_hands()
-	make_dial(35, Color.WHITE)
+	make_dial(36, Color.WHITE)
 
 func _process(delta: float) -> void:
 	update_clock()
@@ -21,10 +21,10 @@ func make_hands()->void:
 	var center = new_cylinder(1,1,1, mat)
 	add_child(center)
 
-	hour_hand_base = make_hand(Color.SKY_BLUE,Vector3(20,0.1,1))
+	hour_hand_base = make_hand(Color.BLUE,Vector3(30,0.1,1))
 	hour_hand_base.position.y = 0.1*1
 
-	minute_hand_base = make_hand(Color.GREEN,Vector3(30,0.1,0.7))
+	minute_hand_base = make_hand(Color.GREEN,Vector3(40,0.1,0.7))
 	minute_hand_base.position.y = 0.1*2
 
 	second_hand_base = make_hand(Color.RED,Vector3(50,0.1,0.5))
@@ -47,8 +47,8 @@ func make_dial(r :float, co :Color):
 	mat.emission_enabled = true
 	mat.emission = co
 	for i in 360 :
-		var bar_center = Vector3(sin(i*2*PI/360)*r,0, cos(i*2*PI/360)*r)
-		var bar_rot = deg2rad(i+90)
+		var bar_center = Vector3(sin(deg2rad(i+90))*r,0, cos(deg2rad(i+90))*r)
+		var bar_rot = deg2rad(i)
 		if i == 0:
 			var bar_size = Vector3(3,0.1,0.3)
 			var bar = new_box(bar_size, mat)
@@ -56,28 +56,28 @@ func make_dial(r :float, co :Color):
 			bar.position = bar_center
 			add_child(bar)
 		elif i % 90 ==0:
-			var bar_size = Vector3(2,0.1,0.2)
+			var bar_size = Vector3(2.5,0.1,0.25)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
-			bar.position = bar_center
+			bar.position = bar_center*1.01
 			add_child(bar)
 		elif i % 30 == 0 :
-			var bar_size = Vector3(1,0.1,0.1)
+			var bar_size = Vector3(1.5,0.1,0.2)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
-			bar.position = bar_center
+			bar.position = bar_center*1.02
 			add_child(bar)
 		elif i % 6 == 0 :
-			var bar_size = Vector3(0.5,0.1,0.1)
+			var bar_size = Vector3(0.7,0.1,0.15)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
-			bar.position = bar_center
+			bar.position = bar_center*1.035
 			add_child(bar)
 		else :
-			var bar_size = Vector3(0.1,0.1,0.1)
+			var bar_size = Vector3(0.2,0.1,0.15)
 			var bar = new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
-			bar.position = bar_center
+			bar.position = bar_center*1.04
 			add_child(bar)
 
 
