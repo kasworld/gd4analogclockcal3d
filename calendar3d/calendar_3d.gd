@@ -78,3 +78,9 @@ func _on_timer_timeout() -> void:
 		old_time_dict = time_now_dict
 		update_calendar()
 
+func update_color()->void:
+	for i in range(7): # week title + 6 week
+		for j in Global3d.weekdaystring.size():
+			var co = Global3d.colors.weekday[j]
+			set_mesh_color(calendar_labels[i][j], co)
+	update_calendar()
