@@ -15,9 +15,15 @@ func _process(delta: float) -> void:
 
 func make_hands(r :float)->void:
 	var mat = Global3d.get_color_mat(Global3d.colors.center_circle1)
-	var center = new_cylinder(r/30,r/36,r/36, mat)
-	center.position.y = 0
-	add_child(center)
+	var center1 = new_cylinder(r/30,r/50,r/50, mat)
+	center1.position.y = 0
+	add_child(center1)
+
+	mat = Global3d.get_color_mat(Global3d.colors.center_circle2)
+	var center2 = new_torus(r/20, r/40, mat)
+	center2.position.y = 0
+	add_child(center2)
+
 
 	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.9,r/180,r/36))
 	hour_hand_base.position.y = r/180*0
@@ -130,6 +136,16 @@ func new_text(h :float, mat :Material, text :String)->MeshInstance3D:
 	var sp = MeshInstance3D.new()
 	sp.mesh = mesh
 	return sp
+
+func new_torus(r1 :float,r2 :float, mat :Material)->MeshInstance3D:
+	var mesh = TorusMesh.new()
+	mesh.outer_radius = r1
+	mesh.inner_radius = r2
+	mesh.material = mat
+	var sp = MeshInstance3D.new()
+	sp.mesh = mesh
+	return sp
+
 
 func update_clock():
 	var ms = Time.get_unix_time_from_system()

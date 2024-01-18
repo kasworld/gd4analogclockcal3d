@@ -15,24 +15,15 @@ var colors = {
 		Color.BLUE,  # saturday
 	],
 	today = Color.GREEN,
-	timelabel = Color.WHITE,
-	datelabel = Color.WHITE,
-	infolabel = Color.WHITE,
-	paneloption = Color.WHITE,
-	default_clear = Color.DIM_GRAY,
 
 	# analog clock
 	hour = Color.BLUE,
 	minute = Color.GREEN,
 	second = Color.RED,
-	center_circle1 = Color.GOLD,
-	center_circle2 = Color.YELLOW,
-	outer_circle1 = Color.GRAY,
-	outer_circle2 = Color.GRAY,
-	outer_circle3 = Color.GRAY,
-	outer_circle4 = Color.GRAY,
+	center_circle1 = Color.CYAN,
+	center_circle2 = Color.MAGENTA,
 	dial_num = Color.LIGHT_GRAY,
-	dial_1 = Color.LIGHT_YELLOW,
+	dial_1 = Color.WHEAT,
 }
 
 func get_color_mat(co: Color)->Material:
