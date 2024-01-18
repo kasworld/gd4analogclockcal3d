@@ -8,42 +8,40 @@ var second_hand_base :Node3D
 
 func init(r :float) -> void:
 	make_hands(r)
-	make_dial(r, Color.WHITE)
+	make_dial(r, Global3d.colors.dial_1, Global3d.colors.dial_num)
 
 func _process(delta: float) -> void:
 	update_clock()
 
 func make_hands(r :float)->void:
-	var bar_color = Color.WHITE
-	var mat = Global3d.get_color_mat(bar_color)
+	var mat = Global3d.get_color_mat(Global3d.colors.center_circle1)
 	var center = new_cylinder(r/30,r/36,r/36, mat)
 	center.position.y = 0
 	add_child(center)
 
-	hour_hand_base = make_hand(Color.BLUE,Vector3(r*0.9,r/180,r/36))
+	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.9,r/180,r/36))
 	hour_hand_base.position.y = r/180*0
 
-	minute_hand_base = make_hand(Color.GREEN,Vector3(r*1.1,r/180,r/54))
+	minute_hand_base = make_hand(Global3d.colors.minute, Vector3(r*1.1,r/180,r/54))
 	minute_hand_base.position.y = r/180*1
 
-	second_hand_base = make_hand(Color.RED,Vector3(r*1.2,r/180,r/72))
+	second_hand_base = make_hand(Global3d.colors.second, Vector3(r*1.2,r/180,r/72))
 	second_hand_base.position.y = r/180*2
 
 func make_hand(co :Color, size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
 	add_child(hand_base)
-	var bar_color = co
-	var mat = Global3d.get_color_mat(bar_color)
-	mat.emission_enabled = true
-	mat.emission = bar_color
+	var mat = Global3d.get_color_mat(co)
+	#mat.emission_enabled = true
+	#mat.emission = bar_color
 	var hand = new_box(size, mat)
 	hand.position.x = size.x / 4
 	hand_base.add_child(hand)
 	return hand_base
 
-func make_dial(r :float, co :Color):
-	var mat = Global3d.get_color_mat(co.darkened(0.1))
-	var num_mat = Global3d.get_color_mat(co.darkened(0.5))
+func make_dial(r :float, co_dial :Color, co_num :Color):
+	var mat = Global3d.get_color_mat(co_dial)
+	var num_mat = Global3d.get_color_mat(co_num)
 	for i in 360 :
 		var bar_center = Vector3(sin(deg2rad(-i+90))*r,0, cos(deg2rad(-i+90))*r)
 		var bar_rot = deg2rad(-i)
@@ -155,6 +153,3 @@ func minute2rad(m :float) -> float:
 
 func hour2rad(hour :float) -> float:
 	return 2.0*PI/12.0*hour
-
-func update_color()->void:
-	pass

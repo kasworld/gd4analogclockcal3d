@@ -63,7 +63,7 @@ func update_calendar()->void:
 			set_mesh_text(curLabel, "%d" % day_index_dict["day"] )
 			var co = Global3d.colors.weekday[wd]
 			if day_index_dict["month"] != today_dict["month"]:
-				co = Global3d.make_shadow_color(co)
+				co = co.darkened(0.5)
 			elif day_index_dict["day"] == today_dict["day"]:
 				co = Global3d.colors.today
 			set_mesh_color(curLabel, co)
@@ -77,10 +77,3 @@ func _on_timer_timeout() -> void:
 	if old_time_dict["day"] != time_now_dict["day"]:
 		old_time_dict = time_now_dict
 		update_calendar()
-
-func update_color()->void:
-	for i in range(7): # week title + 6 week
-		for j in Global3d.weekdaystring.size():
-			var co = Global3d.colors.weekday[j]
-			set_mesh_color(calendar_labels[i][j], co)
-	update_calendar()
