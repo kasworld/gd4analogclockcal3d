@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 
 func make_hands(r :float)->void:
 	var bar_color = Color.WHITE
-	var mat = MatCache.get_color_mat(bar_color)
+	var mat = Global3d.get_color_mat(bar_color)
 	var center = new_cylinder(r/30,r/36,r/36, mat)
 	center.position.y = 0
 	add_child(center)
@@ -33,7 +33,7 @@ func make_hand(co :Color, size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
 	add_child(hand_base)
 	var bar_color = co
-	var mat = MatCache.get_color_mat(bar_color)
+	var mat = Global3d.get_color_mat(bar_color)
 	mat.emission_enabled = true
 	mat.emission = bar_color
 	var hand = new_box(size, mat)
@@ -42,8 +42,8 @@ func make_hand(co :Color, size: Vector3)->Node3D:
 	return hand_base
 
 func make_dial(r :float, co :Color):
-	var mat = MatCache.get_color_mat(co.darkened(0.1))
-	var num_mat = MatCache.get_color_mat(co.darkened(0.5))
+	var mat = Global3d.get_color_mat(co.darkened(0.1))
+	var num_mat = Global3d.get_color_mat(co.darkened(0.5))
 	for i in 360 :
 		var bar_center = Vector3(sin(deg2rad(-i+90))*r,0, cos(deg2rad(-i+90))*r)
 		var bar_rot = deg2rad(-i)

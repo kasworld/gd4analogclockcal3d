@@ -89,3 +89,15 @@ func set_dark_mode(b :bool)->void:
 		colors = colors_light
 	RenderingServer.set_default_clear_color(colors.default_clear)
 
+func make_shadow_color(co :Color)->Color:
+	if dark_mode:
+		return co.darkened(0.5)
+	else :
+		return co.lightened(0.5)
+
+func get_color_mat(co: Color)->Material:
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = co
+	mat.metallic = 1
+	mat.clearcoat = true
+	return mat
