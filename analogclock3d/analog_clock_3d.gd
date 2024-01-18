@@ -8,23 +8,14 @@ var second_hand_base :Node3D
 
 func init(r :float) -> void:
 	make_hands(r)
-	make_dial(r, Global3d.colors.dial_1, Global3d.colors.dial_num)
+	make_dial(r)
+	add_child( new_cylinder(r/30,r/50,r/50, Global3d.get_color_mat(Global3d.colors.center_circle1)) )
+	add_child( new_torus(r/20, r/40, Global3d.get_color_mat(Global3d.colors.center_circle2)) )
 
 func _process(delta: float) -> void:
 	update_clock()
 
 func make_hands(r :float)->void:
-	var mat = Global3d.get_color_mat(Global3d.colors.center_circle1)
-	var center1 = new_cylinder(r/30,r/50,r/50, mat)
-	center1.position.y = 0
-	add_child(center1)
-
-	mat = Global3d.get_color_mat(Global3d.colors.center_circle2)
-	var center2 = new_torus(r/20, r/40, mat)
-	center2.position.y = 0
-	add_child(center2)
-
-
 	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.9,r/180,r/36))
 	hour_hand_base.position.y = r/180*0
 
@@ -37,17 +28,14 @@ func make_hands(r :float)->void:
 func make_hand(co :Color, size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
 	add_child(hand_base)
-	var mat = Global3d.get_color_mat(co)
-	#mat.emission_enabled = true
-	#mat.emission = bar_color
-	var hand = new_box(size, mat)
+	var hand = new_box(size, Global3d.get_color_mat(co))
 	hand.position.x = size.x / 4
 	hand_base.add_child(hand)
 	return hand_base
 
-func make_dial(r :float, co_dial :Color, co_num :Color):
-	var mat = Global3d.get_color_mat(co_dial)
-	var num_mat = Global3d.get_color_mat(co_num)
+func make_dial(r :float):
+	var mat = Global3d.get_color_mat(Global3d.colors.dial_1)
+	var num_mat = Global3d.get_color_mat(Global3d.colors.dial_num)
 	for i in 360 :
 		var bar_center = Vector3(sin(deg2rad(-i+90))*r,0, cos(deg2rad(-i+90))*r)
 		var bar_rot = deg2rad(-i)
@@ -88,7 +76,6 @@ func make_dial(r :float, co_dial :Color, co_num :Color):
 			bar.position = bar_center*1.03
 			add_child(bar)
 
-
 func new_dial_num(r :float, p :Vector3, mat :Material, text :String)->MeshInstance3D:
 	var t = new_text(r/2, mat, text)
 	t.rotation.x = deg2rad(-90)
@@ -96,7 +83,6 @@ func new_dial_num(r :float, p :Vector3, mat :Material, text :String)->MeshInstan
 	t.rotation.z = deg2rad(-90)
 	t.position = p *0.9
 	return t
-
 
 func new_box(hand_size :Vector3, mat :Material)->MeshInstance3D:
 	var mesh = BoxMesh.new()
@@ -145,7 +131,6 @@ func new_torus(r1 :float,r2 :float, mat :Material)->MeshInstance3D:
 	var sp = MeshInstance3D.new()
 	sp.mesh = mesh
 	return sp
-
 
 func update_clock():
 	var ms = Time.get_unix_time_from_system()
