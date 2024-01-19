@@ -4,7 +4,11 @@ extends Node3D
 var calendar_labels = []
 
 func init(w :float, h:float)->void:
-	init_calendar(w/4,h/4)
+	var plane = Global3d.new_plane(Vector2(w,h), Global3d.get_color_mat(Global3d.colors.calbg ) )
+	plane.position.y = -w/180
+	add_child(plane)
+
+	init_calendar(w/7,h/7)
 	update_calendar()
 
 func init_calendar(w :float, h :float)->void:
@@ -14,28 +18,14 @@ func init_calendar(w :float, h :float)->void:
 		for j in Global3d.weekdaystring.size():
 			var co = Global3d.colors.weekday[j]
 			var mat = Global3d.get_color_mat(co)
-			var lb = new_text(h*2, mat, Global3d.weekdaystring[j])
-			lb.rotation.x = deg2rad(-90)
+			var lb = Global3d.new_text(h*2, mat, Global3d.weekdaystring[j])
+			lb.rotation.x = Global3d.deg2rad(-90)
 			#t.rotation.y = deg2rad(90)
-			lb.rotation.z = deg2rad(-90)
-			lb.position = Vector3(3*h - i*h  , 0, j*w - 4*w)
+			lb.rotation.z = Global3d.deg2rad(-90)
+			lb.position = Vector3(3*h - i*h  , 0, j*w - 3*w)
 			ln.append(lb)
 			add_child(lb)
 		calendar_labels.append(ln)
-
-func new_text(h :float, mat :Material, text :String)->MeshInstance3D:
-	var mesh = TextMesh.new()
-	mesh.depth = h / 30
-	mesh.pixel_size = h / 50
-	mesh.font_size = h
-	mesh.text = text
-	mesh.material = mat
-	var sp = MeshInstance3D.new()
-	sp.mesh = mesh
-	return sp
-
-func deg2rad(deg :float) ->float :
-	return deg * 2 * PI / 360
 
 func set_mesh_color(sp:MeshInstance3D, co:Color)->void:
 	sp.mesh.material = Global3d.get_color_mat(co)

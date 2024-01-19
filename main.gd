@@ -1,10 +1,16 @@
 extends Node3D
 
+const sect_width = 34*2
+
 func _ready() -> void:
+	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 	$DirectionalLight3D.look_at(Vector3.ZERO)
 	$Camera3D.look_at(Vector3.ZERO)
-	$AnalogClock3d.init(36)
-	$Calendar3d.init(36,36)
+	$AnalogClock3d.init(sect_width/2)
+	$AnalogClock3d.position.z = sect_width/2
+	$Calendar3d.init(sect_width,sect_width)
+	$Calendar3d.position.z = -sect_width/2
+
 
 var camera_move = false
 func _process(delta: float) -> void:
