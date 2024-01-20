@@ -14,12 +14,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 50, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 1)
+light_energy = 7.0
+shadow_enabled = true
+directional_shadow_max_distance = 200.0
+sky_mode = 1
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
-light_energy = 150.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, -10)
+light_energy = 100.0
+shadow_enabled = true
 omni_range = 150.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 50, 0)

@@ -1,5 +1,7 @@
 extends Node
 
+#class_name NamedColorList
+
 func get_color(i :int)->Color:
 	return color_list[i%color_list.size()][0]
 
