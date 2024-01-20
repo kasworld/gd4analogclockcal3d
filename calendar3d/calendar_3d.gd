@@ -8,21 +8,21 @@ func init(w :float, h:float)->void:
 	plane.position.y = -w/60*2
 	add_child(plane)
 
-	init_calendar(w/7,h/7)
+	init_calendar(w/Global3d.weekdaystring.size(), h/7)
 	update_calendar()
 
 func init_calendar(w :float, h :float)->void:
 	# prepare calendar
 	for i in range(7): # week title + 6 week
 		var ln = []
-		for j in Global3d.weekdaystring.size():
-			var co = Global3d.colors.weekday[j]
+		for wd in Global3d.weekdaystring.size():
+			var co = Global3d.colors.weekday[wd]
 			var mat = Global3d.get_color_mat(co)
-			var lb = Global3d.new_text(h*2, mat, Global3d.weekdaystring[j])
+			var lb = Global3d.new_text(h*2, mat, Global3d.weekdaystring[wd])
 			lb.rotation.x = Global3d.deg2rad(-90)
 			#t.rotation.y = deg2rad(90)
 			lb.rotation.z = Global3d.deg2rad(-90)
-			lb.position = Vector3(3*h - i*h  , 0, j*w - 3*w)
+			lb.position = Vector3(3*h - i*h  , 0, wd*w - 3*w)
 			ln.append(lb)
 			add_child(lb)
 		calendar_labels.append(ln)
@@ -39,17 +39,17 @@ func update_calendar()->void:
 	var today_dict = Time.get_date_dict_from_unix_time(today)
 	var day_index = today - (7 + today_dict["weekday"] )*24*60*60 #datetime.timedelta(days=(-today.weekday() - 7))
 
-	for wd in range(7):
+	for wd in Global3d.weekdaystring.size():
 		var curLabel = calendar_labels[0][wd]
 		var co = Global3d.colors.weekday[wd]
 		if wd == today_dict["weekday"] :
 			co = Global3d.colors.today
 		set_mesh_color(curLabel, co)
 
-	for week in range(6):
-		for wd in range(7):
+	for i in range(1,7): # skip week title , 6 week
+		for wd in Global3d.weekdaystring.size():
 			var day_index_dict = Time.get_date_dict_from_unix_time(day_index)
-			var curLabel = calendar_labels[week+1][wd]
+			var curLabel = calendar_labels[i][wd]
 			set_mesh_text(curLabel, "%d" % day_index_dict["day"] )
 			var co = Global3d.colors.weekday[wd]
 			if day_index_dict["month"] != today_dict["month"]:
