@@ -7,8 +7,8 @@ var minute_hand_base :Node3D
 var second_hand_base :Node3D
 
 func init(r :float) -> void:
-	var plane = Global3d.new_plane(Vector2(r*2,r*2), Global3d.get_color_mat(Global3d.colors.clockbg ) )
-	plane.position.y = -r/180
+	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
+	plane.position.y = -r/60*2
 	add_child(plane)
 
 	make_hands(r)

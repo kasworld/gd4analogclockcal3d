@@ -4,8 +4,8 @@ extends Node3D
 var calendar_labels = []
 
 func init(w :float, h:float)->void:
-	var plane = Global3d.new_plane(Vector2(w,h), Global3d.get_color_mat(Global3d.colors.calbg ) )
-	plane.position.y = -w/180
+	var plane = Global3d.new_box(Vector3(w, w/60, h), Global3d.get_color_mat(Global3d.colors.calbg ) )
+	plane.position.y = -w/60*2
 	add_child(plane)
 
 	init_calendar(w/7,h/7)
