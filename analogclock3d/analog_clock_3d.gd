@@ -14,8 +14,13 @@ func init(r :float) -> void:
 
 	make_hands(r)
 	make_dial(r)
-	add_child( Global3d.new_cylinder(r/30,r/50,r/50, Global3d.get_color_mat(Global3d.colors.center_circle1)) )
-	add_child( Global3d.new_torus(r/20, r/40, Global3d.get_color_mat(Global3d.colors.center_circle2)) )
+
+	var cc = Global3d.new_cylinder(r/30,r/50,r/50, Global3d.get_color_mat(Global3d.colors.center_circle1))
+	cc.position.y = r/30/2
+	add_child(cc)
+	var cc2 = Global3d.new_torus(r/20, r/40, Global3d.get_color_mat(Global3d.colors.center_circle2))
+	#cc2.position.y = r/20/2
+	add_child( cc2 )
 
 	# add time label
 	var time_now_dict = Time.get_datetime_dict_from_system()
@@ -40,14 +45,14 @@ func _process(delta: float) -> void:
 		set_mesh_text(timelabel, "%02d:%02d:%02d" % [time_now_dict["hour"] , time_now_dict["minute"] ,time_now_dict["second"]  ] )
 
 func make_hands(r :float)->void:
-	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.9,r/180,r/36))
-	hour_hand_base.position.y = r/180*0
+	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.8,r/180,r/36))
+	hour_hand_base.position.y = r/180*1
 
-	minute_hand_base = make_hand(Global3d.colors.minute, Vector3(r*1.1,r/180,r/54))
-	minute_hand_base.position.y = r/180*1
+	minute_hand_base = make_hand(Global3d.colors.minute, Vector3(r*1.0,r/180,r/54))
+	minute_hand_base.position.y = r/180*2
 
-	second_hand_base = make_hand(Global3d.colors.second, Vector3(r*1.2,r/180,r/72))
-	second_hand_base.position.y = r/180*2
+	second_hand_base = make_hand(Global3d.colors.second, Vector3(r*1.3,r/180,r/72))
+	second_hand_base.position.y = r/180*3
 
 func make_hand(co :Color, size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
