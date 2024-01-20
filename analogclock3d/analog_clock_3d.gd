@@ -5,6 +5,7 @@ var tz_shift :float = 9.0
 var hour_hand_base :Node3D
 var minute_hand_base :Node3D
 var second_hand_base :Node3D
+var timelabel : MeshInstance3D
 
 func init(r :float) -> void:
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
@@ -16,8 +17,27 @@ func init(r :float) -> void:
 	add_child( Global3d.new_cylinder(r/30,r/50,r/50, Global3d.get_color_mat(Global3d.colors.center_circle1)) )
 	add_child( Global3d.new_torus(r/20, r/40, Global3d.get_color_mat(Global3d.colors.center_circle2)) )
 
+	# add time label
+	var time_now_dict = Time.get_datetime_dict_from_system()
+	var mat = Global3d.get_color_mat(Global3d.colors.datelabel)
+	var lb = Global3d.new_text(r*0.5, mat, "00:00:00")
+	lb.rotation.x = Global3d.deg2rad(-90)
+	lb.rotation.z = Global3d.deg2rad(-90)
+	lb.position = Vector3(r/2, 0, 0)
+	timelabel =lb
+	add_child(lb)
+
+
+func set_mesh_text(sp:MeshInstance3D, text :String)->void:
+	sp.mesh.text = text
+
+var old_time_dict = {"second":0} # datetime dict
 func _process(delta: float) -> void:
 	update_clock()
+	var time_now_dict = Time.get_datetime_dict_from_system()
+	if old_time_dict["second"] != time_now_dict["second"]:
+		old_time_dict = time_now_dict
+		set_mesh_text(timelabel, "%02d:%02d:%02d" % [time_now_dict["hour"] , time_now_dict["minute"] ,time_now_dict["second"]  ] )
 
 func make_hands(r :float)->void:
 	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.9,r/180,r/36))
@@ -107,3 +127,4 @@ func minute2rad(m :float) -> float:
 
 func hour2rad(hour :float) -> float:
 	return 2.0*PI/12.0*hour
+
