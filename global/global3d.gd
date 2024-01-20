@@ -19,6 +19,10 @@ var colors = {
 	today = Color.GREEN,
 	calbg = Color.BLACK.lightened(0.2),
 
+	timelabel = Color.WHITE,
+	datelabel = Color.WHITE,
+	infolabel = Color.WHITE,
+
 	# analog clock
 	hour = Color.ROYAL_BLUE,
 	minute = Color.MEDIUM_SPRING_GREEN,
