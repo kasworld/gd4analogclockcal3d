@@ -10,7 +10,7 @@ var infolabel : MeshInstance3D
 
 var info_text :InfoText
 
-func init(r :float) -> void:
+func init(r :float, config :Dictionary) -> void:
 
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
 	plane.position.y = -r/60
@@ -42,7 +42,7 @@ func init(r :float) -> void:
 
 	info_text = InfoText.new()
 	add_child(info_text)
-	info_text.init_request("http://192.168.0.10/weather.txt","http://192.168.0.10/dayinfo.txt","http://192.168.0.10/todayinfo.txt")
+	info_text.init_request(config.weather_url,config.dayinfo_url,config.todayinfo_url)
 	info_text.text_updated.connect(update_info_text)
 
 func update_info_text(t :String)->void:

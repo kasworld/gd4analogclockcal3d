@@ -59,7 +59,7 @@ func todayinfo_fail()->void:
 # remove empty line
 func split2list(text :String)->Array[String]:
 	var lines = text.strip_edges().split("\n", false,0)
-	var rtn :Array[String]
+	var rtn :Array[String]=[]
 	for l in lines:
 		if not l.is_empty():
 			rtn.append(l.strip_edges())

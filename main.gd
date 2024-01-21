@@ -9,24 +9,24 @@ extends Node3D
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 1.0.0",
+	"version" : "gd4analogclockcal3d 2.0.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
 }
-
 
 const sect_width :float = 34*2
 var calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
 var analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)]
 
 func _ready() -> void:
+	Config.load_or_save(file_name,config,"version" )
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 	reset_camera_pos()
 
 	$DirectionalLight3D.look_at(Vector3.ZERO)
 
-	$AnalogClock3d.init(sect_width/2)
+	$AnalogClock3d.init(sect_width/2,config)
 	$AnalogClock3d.position = analogclock_pos_list[0]
 
 	$Calendar3d.init(sect_width,sect_width)
