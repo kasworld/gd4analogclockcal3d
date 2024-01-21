@@ -80,8 +80,8 @@ func new_text(h :float, mat :Material, text :String)->MeshInstance3D:
 	var mesh = TextMesh.new()
 	mesh.font = font
 	mesh.depth = h / 30
-	mesh.pixel_size = h / 50
-	mesh.font_size = h
+	mesh.pixel_size = h / 200
+	mesh.font_size = h *4
 	mesh.text = text
 	mesh.material = mat
 	var sp = MeshInstance3D.new()
