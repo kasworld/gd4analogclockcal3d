@@ -23,7 +23,6 @@ func init(r :float) -> void:
 	add_child( cc2 )
 
 	# add time label
-	var time_now_dict = Time.get_datetime_dict_from_system()
 	var mat = Global3d.get_color_mat(Global3d.colors.datelabel)
 	var lb = Global3d.new_text(r*0.5, mat, "00:00:00")
 	lb.rotation.x = Global3d.deg2rad(-90)
@@ -37,7 +36,7 @@ func set_mesh_text(sp:MeshInstance3D, text :String)->void:
 	sp.mesh.text = text
 
 var old_time_dict = {"second":0} # datetime dict
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	update_clock()
 	var time_now_dict = Time.get_datetime_dict_from_system()
 	if old_time_dict["second"] != time_now_dict["second"]:

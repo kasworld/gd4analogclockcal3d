@@ -1,17 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://fqluwi3lx7n1"]
+[gd_scene load_steps=5 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_cjool"]
 [ext_resource type="PackedScene" uid="uid://jmb1btvtwi1m" path="res://analogclock3d/analog_clock_3d.tscn" id="1_d6kav"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar3d/calendar_3d.tscn" id="3_yml64"]
+[ext_resource type="PackedScene" uid="uid://bf1vkxi8i0lm1" path="res://ani_move_3d/ani_move_3d.tscn" id="4_s5k4q"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cjool")
 
 [node name="AnalogClock3d" parent="." instance=ExtResource("1_d6kav")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
 
 [node name="Calendar3d" parent="." instance=ExtResource("3_yml64")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 1)
@@ -27,3 +26,10 @@ shadow_enabled = true
 omni_range = 150.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="AniMove3D" parent="." instance=ExtResource("4_s5k4q")]
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
