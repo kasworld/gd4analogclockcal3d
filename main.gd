@@ -1,5 +1,21 @@
 extends Node3D
 
+#var version_key = "version"
+#var editable_keys = [
+	#"weather_url",
+	#"dayinfo_url",
+	#"todayinfo_url",
+	#]
+
+var file_name = "gd4analogclockcal3d_config.json"
+var config = {
+	"version" : "gd4analogclockcal3d 1.0.0",
+	"weather_url" : "http://192.168.0.10/weather.txt",
+	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
+	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
+}
+
+
 const sect_width :float = 34*2
 var calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
 var analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)]
