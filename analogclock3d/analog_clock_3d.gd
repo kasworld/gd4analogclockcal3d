@@ -6,8 +6,12 @@ var hour_hand_base :Node3D
 var minute_hand_base :Node3D
 var second_hand_base :Node3D
 var timelabel : MeshInstance3D
+var infolabel : MeshInstance3D
+
+var info_text :InfoText
 
 func init(r :float) -> void:
+
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
 	plane.position.y = -r/60
 	add_child(plane)
@@ -23,14 +27,26 @@ func init(r :float) -> void:
 	add_child( cc2 )
 
 	# add time label
-	var mat = Global3d.get_color_mat(Global3d.colors.datelabel)
-	var lb = Global3d.new_text(r*0.5, mat, "00:00:00")
-	lb.rotation.x = Global3d.deg2rad(-90)
-	lb.rotation.z = Global3d.deg2rad(-90)
-	lb.position = Vector3(r/2, 0, 0)
-	timelabel =lb
-	add_child(lb)
+	timelabel = Global3d.new_text(r*0.5, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
+	timelabel.rotation.x = Global3d.deg2rad(-90)
+	timelabel.rotation.z = Global3d.deg2rad(-90)
+	timelabel.position = Vector3(r/2, 0, 0)
+	add_child(timelabel)
 
+	# add info text label
+	infolabel = Global3d.new_text(r*0.4, Global3d.get_color_mat(Global3d.colors.infolabel), "No info")
+	infolabel.rotation.x = Global3d.deg2rad(-90)
+	infolabel.rotation.z = Global3d.deg2rad(-90)
+	infolabel.position = Vector3(-r/2, 0, 0)
+	add_child(infolabel)
+
+	info_text = InfoText.new()
+	add_child(info_text)
+	info_text.init_request("http://192.168.0.10/weather.txt","http://192.168.0.10/dayinfo.txt","http://192.168.0.10/todayinfo.txt")
+	info_text.text_updated.connect(update_info_text)
+
+func update_info_text(t :String)->void:
+	set_mesh_text(infolabel, t)
 
 func set_mesh_text(sp:MeshInstance3D, text :String)->void:
 	sp.mesh.text = text

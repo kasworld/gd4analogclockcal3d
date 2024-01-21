@@ -1,10 +1,11 @@
 extends Node
 
+class_name InfoText
+
 signal text_updated(info_text :String)
 
 var request_dict = {}
 func init_request(weather_url :String, dayinfo_url:String, todayinfo_url:String )->void:
-	var callable_dict = $SectAnalogClock.get_req_callable()
 	request_dict["weather_url"] = MyHTTPRequest.new(
 		weather_url,
 		60,	weather_success, weather_fail,

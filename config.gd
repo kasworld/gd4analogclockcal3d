@@ -6,7 +6,6 @@ var editable_keys = [
 	"weather_url",
 	"dayinfo_url",
 	"todayinfo_url",
-	"background_url",
 	]
 
 var config = {
@@ -14,7 +13,6 @@ var config = {
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
-	"background_url" : "http://192.168.0.10/background.png",
 }
 
 func file_full_path()->String:
