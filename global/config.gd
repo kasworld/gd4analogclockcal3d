@@ -21,13 +21,13 @@ func new_by_load(fname :String, config :Dictionary, version_key:String)->Diction
 	var json = JSON.new()
 	var error = json.parse(json_string)
 	if error == OK:
-		rtn.config = json.data
+		rtn = json.data
 		for k in config:
-			if rtn.config.get(k) == null :
+			if rtn.get(k) == null :
 				rtn.load_error = "field not found %s" % [ k ]
 				break
-		if rtn.get("load_error") == null and ( rtn.config[version_key] != config[version_key] ):
-			rtn.load_error = "version not match %s %s" % [rtn.config[version_key] , config[version_key]]
+		if rtn.get("load_error") == null and ( rtn[version_key] != config[version_key] ):
+			rtn.load_error = "version not match %s %s" % [rtn[version_key] , config[version_key]]
 	else:
 		rtn.load_error = "JSON Parse Error: %s in %s at line %s" % [ json.get_error_message(),  json_string,  json.get_error_line()]
 	return rtn

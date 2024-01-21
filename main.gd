@@ -9,7 +9,7 @@ extends Node3D
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 2.0.0",
+	"version" : "gd4analogclockcal3d 2.1.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
@@ -20,7 +20,8 @@ var calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
 var analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)]
 
 func _ready() -> void:
-	Config.load_or_save(file_name,config,"version" )
+	config = Config.load_or_save(file_name,config,"version" )
+	print_debug(config)
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 	reset_camera_pos()
 
