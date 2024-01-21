@@ -67,7 +67,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			light_on(light_state)
 
 	elif event is InputEventMouseButton and event.is_pressed():
-		pass
+		light_state = (light_state+1)%3
+		light_on(light_state)
 
 func _notification(what: int) -> void:
 	# app resume on android
@@ -90,8 +91,8 @@ func rot_by_accel()->void:
 		rotate_all(rad)
 
 func rotate_all(rad :float):
-	$AnalogClock3d.rotation.y = rad
-	$Calendar3d.rotation.y = rad
+	$AnalogClock3d.rotation.y = -rad
+	$Calendar3d.rotation.y = -rad
 
 var light_state = 0
 func set_light_by_time()->void:
