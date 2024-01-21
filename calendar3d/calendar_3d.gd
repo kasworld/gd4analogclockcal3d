@@ -5,7 +5,7 @@ var calendar_labels = []
 
 func init(w :float, h:float)->void:
 	var plane = Global3d.new_box(Vector3(w, w/60, h), Global3d.get_color_mat(Global3d.colors.calbg ) )
-	plane.position.y = -w/60*2
+	plane.position.y = -w/60
 	add_child(plane)
 
 	init_calendar(w/Global3d.weekdaystring.size(), h/8)

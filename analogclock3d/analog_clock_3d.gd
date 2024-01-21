@@ -9,7 +9,7 @@ var timelabel : MeshInstance3D
 
 func init(r :float) -> void:
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
-	plane.position.y = -r/60*2
+	plane.position.y = -r/60
 	add_child(plane)
 
 	make_hands(r)
@@ -72,6 +72,7 @@ func make_dial(r :float):
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.95
+			bar.position.y = 0
 			add_child(bar)
 			add_child(new_dial_num(r,bar_center, num_mat,"12"))
 
@@ -80,6 +81,7 @@ func make_dial(r :float):
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.97
+			bar.position.y = 0
 			add_child(bar)
 			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
 
@@ -88,6 +90,7 @@ func make_dial(r :float):
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.98
+			bar.position.y = 0
 			add_child(bar)
 			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
 
@@ -96,12 +99,14 @@ func make_dial(r :float):
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.99
+			bar.position.y = 0
 			add_child(bar)
 		else :
 			var bar_size = Vector3(r/72,r/60,r/720)
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.99
+			bar.position.y = 0
 			add_child(bar)
 
 func new_dial_num(r :float, p :Vector3, mat :Material, text :String)->MeshInstance3D:
