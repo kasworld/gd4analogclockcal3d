@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://fqluwi3lx7n1"]
+[gd_scene load_steps=6 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_cjool"]
 [ext_resource type="PackedScene" uid="uid://jmb1btvtwi1m" path="res://analogclock3d/analog_clock_3d.tscn" id="1_d6kav"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar3d/calendar_3d.tscn" id="3_yml64"]
 [ext_resource type="PackedScene" uid="uid://bf1vkxi8i0lm1" path="res://ani_move_3d/ani_move_3d.tscn" id="4_s5k4q"]
+[ext_resource type="PackedScene" uid="uid://btysv8q6rp8ku" path="res://panel_option/panel_option.tscn" id="5_fv6ku"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cjool")
@@ -32,4 +33,13 @@ omni_range = 150.0
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
+[node name="PanelOption" parent="." instance=ExtResource("5_fv6ku")]
+z_index = 1
+
+[node name="AutoHideOptionPanel" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="AutoHideOptionPanel" to="." method="_on_auto_hide_option_panel_timeout"]

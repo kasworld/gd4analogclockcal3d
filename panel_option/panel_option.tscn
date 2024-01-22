@@ -71,7 +71,7 @@ text = "Cancel"
 
 [node name="LabelCopyright" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Copyright 2023 SeukWon Kang (kasworld@gmail.com)"
+text = "Copyright 2023,2024 SeukWon Kang (kasworld@gmail.com)"
 horizontal_alignment = 1
 vertical_alignment = 2
 

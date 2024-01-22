@@ -1,19 +1,23 @@
 extends Node3D
 
 #var version_key = "version"
-#var editable_keys = [
-	#"weather_url",
-	#"dayinfo_url",
-	#"todayinfo_url",
-	#]
+var editable_keys = [
+	"weather_url",
+	"dayinfo_url",
+	"todayinfo_url",
+	]
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 2.1.0",
+	"version" : "gd4analogclockcal3d 2.2.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
 }
+func config_changed(cfg :Dictionary):
+	#update config
+	for k in cfg:
+		config[k]=cfg[k]
 
 const sect_width :float = 34*2
 var calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
@@ -32,6 +36,12 @@ func _ready() -> void:
 
 	$Calendar3d.init(sect_width,sect_width)
 	$Calendar3d.position = calendar_pos_list[0]
+
+	var vp_rect = Rect2(0,0,1920,1080)
+	var optrect = Rect2( vp_rect.size.x * 0.1 ,vp_rect.size.y * 0.3 , vp_rect.size.x * 0.8 , vp_rect.size.y * 0.4 )
+	$PanelOption.init(file_name,config,editable_keys, optrect )
+	$PanelOption.config_changed.connect(config_changed)
+	$PanelOption.config_reset_req.connect(panel_config_reset_req)
 
 func reset_pos()->void:
 	$Calendar3d.position = calendar_pos_list[0]
@@ -79,6 +89,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			camera_move = !camera_move
 			if camera_move == false:
 				reset_camera_pos()
+		elif event.keycode == KEY_TAB:
+			_on_button_option_pressed()
+		elif event.keycode == KEY_SPACE:
+			_on_button_option_pressed()
 		else:
 			light_state = (light_state+1)%3
 			light_on(light_state)
@@ -91,6 +105,15 @@ func _notification(what: int) -> void:
 	# app resume on android
 	if what == NOTIFICATION_APPLICATION_RESUMED :
 		set_light_by_time()
+
+func _on_button_option_pressed() -> void:
+	$PanelOption.visible = not $PanelOption.visible
+
+func _on_auto_hide_option_panel_timeout() -> void:
+	$PanelOption.hide()
+
+func panel_config_reset_req()->void:
+	$PanelOption.config_to_control(file_name,config,editable_keys)
 
 var oldvt = Vector2(0,-100)
 func rot_by_accel()->void:

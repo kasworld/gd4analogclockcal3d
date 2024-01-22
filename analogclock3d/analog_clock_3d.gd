@@ -48,6 +48,10 @@ func init(r :float, config :Dictionary) -> void:
 func update_info_text(t :String)->void:
 	set_mesh_text(infolabel, t)
 
+func update_req_url(cfg:Dictionary)->void:
+	info_text.update_urls(cfg.weather_url,cfg.dayinfo_url,cfg.todayinfo_url)
+	info_text.force_update()
+
 func set_mesh_text(sp:MeshInstance3D, text :String)->void:
 	sp.mesh.text = text
 

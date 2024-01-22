@@ -21,6 +21,15 @@ func init_request(weather_url :String, dayinfo_url:String, todayinfo_url:String 
 	for k in request_dict:
 		add_child(request_dict[k])
 
+func update_urls(weather_url :String, dayinfo_url:String, todayinfo_url:String )->void:
+	request_dict.weather_url.url_to_get = weather_url
+	request_dict.dayinfo_url.url_to_get = dayinfo_url
+	request_dict.todayinfo_url.url_to_get = todayinfo_url
+
+func force_update()->void:
+	for k in request_dict:
+		request_dict[k].force_update()
+
 func make_info_text():
 	var dayinfo = day_info.get_daystringlist()
 	var all = []
