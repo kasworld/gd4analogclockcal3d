@@ -27,17 +27,17 @@ func init(r :float, config :Dictionary) -> void:
 	add_child( cc2 )
 
 	# add time label
-	timelabel = Global3d.new_text(r*0.5, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
+	timelabel = Global3d.new_text(r*0.60, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
 	timelabel.rotation.x = Global3d.deg2rad(-90)
 	timelabel.rotation.z = Global3d.deg2rad(-90)
-	timelabel.position = Vector3(r/2, 0, 0)
+	timelabel.position = Vector3(r/3.0, 0, 0)
 	add_child(timelabel)
 
 	# add info text label
 	infolabel = Global3d.new_text(r*0.4, Global3d.get_color_mat(Global3d.colors.infolabel), "No info")
 	infolabel.rotation.x = Global3d.deg2rad(-90)
 	infolabel.rotation.z = Global3d.deg2rad(-90)
-	infolabel.position = Vector3(-r/2, 0, 0)
+	infolabel.position = Vector3(-r/2.5, 0, 0)
 	add_child(infolabel)
 
 	info_text = InfoText.new()
