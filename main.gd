@@ -25,7 +25,7 @@ var analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)
 
 func _ready() -> void:
 	config = Config.load_or_save(file_name,config,"version" )
-	print_debug(config)
+	#print_debug(config)
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 	reset_camera_pos()
 
@@ -37,7 +37,7 @@ func _ready() -> void:
 	$Calendar3d.init(sect_width,sect_width)
 	$Calendar3d.position = calendar_pos_list[0]
 
-	var vp_rect = Rect2(0,0,1920,1080)
+	var vp_rect = get_viewport().get_visible_rect()
 	var optrect = Rect2( vp_rect.size.x * 0.1 ,vp_rect.size.y * 0.3 , vp_rect.size.x * 0.8 , vp_rect.size.y * 0.4 )
 	$PanelOption.init(file_name,config,editable_keys, optrect )
 	$PanelOption.config_changed.connect(config_changed)

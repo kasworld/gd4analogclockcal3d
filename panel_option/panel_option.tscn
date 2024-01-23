@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://btysv8q6rp8ku"]
 
-[ext_resource type="FontFile" uid="uid://gdh6qls28unk" path="res://HakgyoansimBareondotumR.ttf" id="1_sfaco"]
+[ext_resource type="FontFile" uid="uid://cqsd65atk2105" path="res://HakgyoansimBareondotumR.ttf" id="1_sfaco"]
 [ext_resource type="Script" path="res://panel_option/panel_option.gd" id="2_fkx3e"]
 
 [sub_resource type="Theme" id="Theme_hvyh5"]
