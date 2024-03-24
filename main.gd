@@ -9,7 +9,7 @@ var editable_keys = [
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 3.0.0",
+	"version" : "gd4analogclockcal3d 3.1.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
@@ -30,19 +30,8 @@ func _ready() -> void:
 	#print_debug(config)
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 
-	_on_vpsize_changed()
-	get_viewport().size_changed.connect(_on_vpsize_changed)
-	$DirectionalLight3D.look_at(Vector3.ZERO)
-	reset_camera_pos()
-
-	var optrect = Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.4 )
-	$PanelOption.init(file_name,config,editable_keys, optrect )
-	$PanelOption.config_changed.connect(config_changed)
-	$PanelOption.config_reset_req.connect(panel_config_reset_req)
-
-func _on_vpsize_changed()->void:
 	vp_size = get_viewport().get_visible_rect().size
-	sect_width = min(vp_size.x/2,vp_size.y/2)
+	sect_width = min(vp_size.x/2,vp_size.y)
 	calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
 	analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)]
 
@@ -51,6 +40,15 @@ func _on_vpsize_changed()->void:
 
 	$Calendar3d.init(sect_width,sect_width)
 	$Calendar3d.position = calendar_pos_list[0]
+
+	$DirectionalLight3D.look_at(Vector3.ZERO)
+	reset_camera_pos()
+
+	var optrect = Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.4 )
+	$PanelOption.init(file_name,config,editable_keys, optrect )
+	$PanelOption.config_changed.connect(config_changed)
+	$PanelOption.config_reset_req.connect(panel_config_reset_req)
+
 
 func reset_pos()->void:
 	$Calendar3d.position = calendar_pos_list[0]

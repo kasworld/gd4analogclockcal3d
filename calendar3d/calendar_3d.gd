@@ -4,9 +4,12 @@ extends Node3D
 var calendar_labels = []
 
 func init(w :float, h:float)->void:
+	calendar_labels = []
+	for o in $LabelConatiner.get_children():
+		o.queue_free()
 	var plane = Global3d.new_box(Vector3(w, w/60, h), Global3d.get_color_mat(Global3d.colors.calbg ) )
 	plane.position.y = -w/60
-	add_child(plane)
+	$LabelConatiner.add_child(plane)
 
 	init_calendar(w/Global3d.weekdaystring.size(), h/8)
 	update_calendar()
@@ -22,7 +25,7 @@ func init_calendar(w :float, h :float)->void:
 	lb.rotation.z = Global3d.deg2rad(-90)
 	lb.position = Vector3(3.5*h, 0, 0)
 	calendar_labels.append(lb)
-	add_child(lb)
+	$LabelConatiner.add_child(lb)
 
 	# prepare calendar
 	for i in range(1,8): # skip yearmonth, week title + 6 week
@@ -36,7 +39,7 @@ func init_calendar(w :float, h :float)->void:
 			lb.rotation.z = Global3d.deg2rad(-90)
 			lb.position = Vector3(3.5*h - i*h  , 0, wd*w - 3*w)
 			ln.append(lb)
-			add_child(lb)
+			$LabelConatiner.add_child(lb)
 		calendar_labels.append(ln)
 
 func set_mesh_color(sp:MeshInstance3D, co:Color)->void:

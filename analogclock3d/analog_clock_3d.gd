@@ -11,7 +11,6 @@ var infolabel : MeshInstance3D
 var info_text :InfoText
 
 func init(r :float, config :Dictionary) -> void:
-
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
 	plane.position.y = -r/60
 	add_child(plane)
