@@ -27,14 +27,14 @@ func init(r :float, config :Dictionary) -> void:
 	add_child( cc2 )
 
 	# add time label
-	timelabel = Global3d.new_text(r*0.60, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
+	timelabel = Global3d.new_text(r/2.2, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
 	timelabel.rotation.x = Global3d.deg2rad(-90)
 	timelabel.rotation.z = Global3d.deg2rad(-90)
 	timelabel.position = Vector3(r/3.0, 0, 0)
 	add_child(timelabel)
 
 	# add info text label
-	infolabel = Global3d.new_text(r*0.4, Global3d.get_color_mat(Global3d.colors.infolabel), "No info")
+	infolabel = Global3d.new_text(r/4, Global3d.get_color_mat(Global3d.colors.infolabel), "No info")
 	infolabel.rotation.x = Global3d.deg2rad(-90)
 	infolabel.rotation.z = Global3d.deg2rad(-90)
 	infolabel.position = Vector3(-r/2.5, 0, 0)
@@ -87,38 +87,22 @@ func make_dial(r :float):
 	for i in 360 :
 		var bar_center = Vector3(sin(Global3d.deg2rad(-i+90))*r,0, cos(Global3d.deg2rad(-i+90))*r)
 		var bar_rot = Global3d.deg2rad(-i)
-		if i == 0:
-			var bar_size = Vector3(r/12,r/60,r/120)
-			var bar = Global3d.new_box(bar_size, mat)
-			bar.rotation.y = bar_rot
-			bar.position = bar_center*0.95
-			bar.position.y = 0
-			add_child(bar)
-			add_child(new_dial_num(r,bar_center, num_mat,"12"))
-
-		elif i % 90 ==0:
+		if i % 30 == 0 :
 			var bar_size = Vector3(r/18,r/60,r/180)
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.97
 			bar.position.y = 0
 			add_child(bar)
-			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
-
-		elif i % 30 == 0 :
-			var bar_size = Vector3(r/24,r/60,r/240)
+			if i == 0 :
+				add_child(new_dial_num(r,bar_center, num_mat,"12"))
+			else:
+				add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
+		elif i % 6 == 0 :
+			var bar_size = Vector3(r/24,r/60,r/240) #Vector3(r/48,r/60,r/480)
 			var bar = Global3d.new_box(bar_size, mat)
 			bar.rotation.y = bar_rot
 			bar.position = bar_center*0.98
-			bar.position.y = 0
-			add_child(bar)
-			add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
-
-		elif i % 6 == 0 :
-			var bar_size = Vector3(r/48,r/60,r/480)
-			var bar = Global3d.new_box(bar_size, mat)
-			bar.rotation.y = bar_rot
-			bar.position = bar_center*0.99
 			bar.position.y = 0
 			add_child(bar)
 		else :
@@ -130,7 +114,7 @@ func make_dial(r :float):
 			add_child(bar)
 
 func new_dial_num(r :float, p :Vector3, mat :Material, text :String)->MeshInstance3D:
-	var t = Global3d.new_text(r/2, mat, text)
+	var t = Global3d.new_text(r/4, mat, text)
 	t.rotation.x = Global3d.deg2rad(-90)
 	#t.rotation.y = deg2rad(90)
 	t.rotation.z = Global3d.deg2rad(-90)

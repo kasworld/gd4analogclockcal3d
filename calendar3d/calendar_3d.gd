@@ -15,7 +15,7 @@ func init_calendar(w :float, h :float)->void:
 	# add year month
 	var time_now_dict = Time.get_datetime_dict_from_system()
 	var mat = Global3d.get_color_mat(Global3d.colors.datelabel)
-	var lb = Global3d.new_text(h*2.0, mat, "%4d년 %2d월" % [
+	var lb = Global3d.new_text(h*1.3, mat, "%4d년 %2d월" % [
 			time_now_dict["year"] , time_now_dict["month"]
 			])
 	lb.rotation.x = Global3d.deg2rad(-90)
@@ -30,7 +30,7 @@ func init_calendar(w :float, h :float)->void:
 		for wd in Global3d.weekdaystring.size():
 			var co = Global3d.colors.weekday[wd]
 			mat = Global3d.get_color_mat(co)
-			lb = Global3d.new_text(h*2.0, mat, Global3d.weekdaystring[wd])
+			lb = Global3d.new_text(h*1.3, mat, Global3d.weekdaystring[wd])
 			lb.rotation.x = Global3d.deg2rad(-90)
 			#t.rotation.y = deg2rad(90)
 			lb.rotation.z = Global3d.deg2rad(-90)
