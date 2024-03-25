@@ -9,7 +9,7 @@ var editable_keys = [
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 3.1.0",
+	"version" : "gd4analogclockcal3d 3.2.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
@@ -31,6 +31,7 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 
 	vp_size = get_viewport().get_visible_rect().size
+	print_debug(vp_size)
 	sect_width = min(vp_size.x/2,vp_size.y)
 	calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
 	analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)]
