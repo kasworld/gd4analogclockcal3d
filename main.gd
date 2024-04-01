@@ -31,10 +31,11 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 
 	vp_size = get_viewport().get_visible_rect().size
-	print_debug(vp_size)
+	#print_debug(vp_size)
 	sect_width = min(vp_size.x/2,vp_size.y)
 	calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
-	analogclock_pos_list = [Vector3(0,0,sect_width/2),Vector3(0,0,-sect_width/2)]
+	analogclock_pos_list = calendar_pos_list.duplicate()
+	analogclock_pos_list.reverse()
 
 	$AnalogClock3d.init(sect_width/2,config)
 	$AnalogClock3d.position = analogclock_pos_list[0]
@@ -54,26 +55,19 @@ func _ready() -> void:
 func reset_pos()->void:
 	$Calendar3d.position = calendar_pos_list[0]
 	$AnalogClock3d.position = analogclock_pos_list[0]
-	$AniMove3D.stop()
+	$AniMove.stop()
 
 func animove_toggle()->void:
-	$AniMove3D.toggle()
-	if not $AniMove3D.enabled:
+	$AniMove.toggle()
+	if not $AniMove.enabled:
 		reset_pos()
 
 func animove_step():
-	if not $AniMove3D.enabled:
+	if not $AniMove.enabled:
 		return
-	var ms = $AniMove3D.get_ms()
-	match $AniMove3D.state%2:
-		0:
-			$AniMove3D.move_by_ms($Calendar3d, calendar_pos_list[0], calendar_pos_list[1], ms)
-			$AniMove3D.move_by_ms($AnalogClock3d, analogclock_pos_list[0], analogclock_pos_list[1], ms)
-		1:
-			$AniMove3D.move_by_ms($Calendar3d, calendar_pos_list[1], calendar_pos_list[0], ms)
-			$AniMove3D.move_by_ms($AnalogClock3d, analogclock_pos_list[1], analogclock_pos_list[0], ms)
-		_:
-			print_debug("invalid state", $AniMove3D.state)
+	var ms = $AniMove.get_ms()
+	$AniMove.move_position($Calendar3d, calendar_pos_list, ms)
+	$AniMove.move_position($AnalogClock3d, analogclock_pos_list, ms)
 
 func reset_camera_pos()->void:
 	$Camera3D.position = Vector3(-1,sect_width/1.35,0)
@@ -167,7 +161,7 @@ var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
 func _on_timer_timeout() -> void:
 	var time_now_dict = Time.get_datetime_dict_from_system()
 	if old_minute_dict["minute"] != time_now_dict["minute"]:
-		$AniMove3D.start_with_step(1)
+		$AniMove.start_with_step(1)
 		old_minute_dict = time_now_dict
 
 	if old_time_dict["hour"] != time_now_dict["hour"]:
