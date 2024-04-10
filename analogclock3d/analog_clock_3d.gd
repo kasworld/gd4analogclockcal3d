@@ -85,34 +85,25 @@ func make_dial(r :float):
 	var mat = Global3d.get_color_mat(Global3d.colors.dial_1)
 	var num_mat = Global3d.get_color_mat(Global3d.colors.dial_num)
 	var bar_height = r/180
+	var bar_size :Vector3
 	for i in 360 :
 		var bar_center = Vector3(sin(deg_to_rad(-i+90))*r,bar_height/2, cos(deg_to_rad(-i+90))*r)
-		var bar_rot = deg_to_rad(-i)
 		if i % 30 == 0 :
-			var bar_size = Vector3(r/18,bar_height,r/180)
-			var bar = Global3d.new_box(bar_size, mat)
-			bar.rotation.y = bar_rot
-			bar.position = bar_center - bar_center*(bar_size.length()/bar_center.length())/2
-			bar.position.y = bar_height/2
-			add_child(bar)
+			bar_size = Vector3(r/18,bar_height,r/180)
 			if i == 0 :
 				add_child(new_dial_num(r,bar_center, num_mat,"12"))
 			else:
 				add_child(new_dial_num(r,bar_center, num_mat, "%d" % [i/30] ))
 		elif i % 6 == 0 :
-			var bar_size = Vector3(r/24,bar_height,r/480)
-			var bar = Global3d.new_box(bar_size, mat)
-			bar.rotation.y = bar_rot
-			bar.position = bar_center - bar_center*(bar_size.length()/bar_center.length())/2
-			bar.position.y = bar_height/2
-			add_child(bar)
+			bar_size = Vector3(r/24,bar_height,r/480)
 		else :
-			var bar_size = Vector3(r/72,bar_height,r/720)
-			var bar = Global3d.new_box(bar_size, mat)
-			bar.rotation.y = bar_rot
-			bar.position = bar_center - bar_center*(bar_size.length()/bar_center.length())/2
-			bar.position.y = bar_height/2
-			add_child(bar)
+			bar_size = Vector3(r/72,bar_height,r/720)
+		var bar_rot = deg_to_rad(-i)
+		var bar = Global3d.new_box(bar_size, mat)
+		bar.rotation.y = bar_rot
+		bar.position = bar_center - bar_center*(bar_size.length()/bar_center.length())/2
+		bar.position.y = bar_height/2
+		add_child(bar)
 
 func new_dial_num(r :float, p :Vector3, mat :Material, text :String)->MeshInstance3D:
 	var t = Global3d.new_text(r/4, mat, text)
