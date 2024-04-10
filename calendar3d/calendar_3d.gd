@@ -21,8 +21,8 @@ func init_calendar(w :float, h :float)->void:
 	var lb = Global3d.new_text(h*1.3, mat, "%4d년 %2d월" % [
 			time_now_dict["year"] , time_now_dict["month"]
 			])
-	lb.rotation.x = Global3d.deg2rad(-90)
-	lb.rotation.z = Global3d.deg2rad(-90)
+	lb.rotation.x = deg_to_rad(-90)
+	lb.rotation.z = deg_to_rad(-90)
 	lb.position = Vector3(3.5*h, 0, 0)
 	calendar_labels.append(lb)
 	$LabelConatiner.add_child(lb)
@@ -34,9 +34,9 @@ func init_calendar(w :float, h :float)->void:
 			var co = Global3d.colors.weekday[wd]
 			mat = Global3d.get_color_mat(co)
 			lb = Global3d.new_text(h*1.3, mat, Global3d.weekdaystring[wd])
-			lb.rotation.x = Global3d.deg2rad(-90)
+			lb.rotation.x = deg_to_rad(-90)
 			#t.rotation.y = deg2rad(90)
-			lb.rotation.z = Global3d.deg2rad(-90)
+			lb.rotation.z = deg_to_rad(-90)
 			lb.position = Vector3(3.5*h - i*h  , 0, wd*w - 3*w)
 			ln.append(lb)
 			$LabelConatiner.add_child(lb)

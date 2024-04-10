@@ -36,9 +36,6 @@ var colors = {
 	default_clear = Color.BLACK,
 }
 
-func deg2rad(deg :float) ->float :
-	return deg * 2 * PI / 360
-
 func get_color_mat(co: Color)->Material:
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = co
