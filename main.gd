@@ -15,7 +15,6 @@ var config = {
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
 }
 func config_changed(cfg :Dictionary):
-	#update config
 	for k in cfg:
 		config[k]=cfg[k]
 
@@ -27,11 +26,9 @@ var analogclock_pos_list :Array
 func _ready() -> void:
 	vp_size = get_viewport().get_visible_rect().size
 	config = Config.load_or_save(file_name,config,"version" )
-	#print_debug(config)
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 
 	vp_size = get_viewport().get_visible_rect().size
-	#print_debug(vp_size)
 	sect_width = min(vp_size.x/2,vp_size.y)
 	calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
 	analogclock_pos_list = calendar_pos_list.duplicate()
@@ -50,7 +47,6 @@ func _ready() -> void:
 	$PanelOption.init(file_name,config,editable_keys, optrect )
 	$PanelOption.config_changed.connect(config_changed)
 	$PanelOption.config_reset_req.connect(panel_config_reset_req)
-
 
 func reset_pos()->void:
 	$Calendar3d.position = calendar_pos_list[0]
@@ -95,18 +91,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			_on_button_option_pressed()
 		elif event.keycode == KEY_SPACE:
 			_on_button_option_pressed()
-		else:
-			light_state = (light_state+1)%3
-			light_on(light_state)
-
-	elif event is InputEventMouseButton and event.is_pressed():
-		light_state = (light_state+1)%3
-		light_on(light_state)
 
 func _notification(what: int) -> void:
 	# app resume on android
 	if what == NOTIFICATION_APPLICATION_RESUMED :
-		set_light_by_time()
+		pass
 
 func _on_button_option_pressed() -> void:
 	$PanelOption.visible = not $PanelOption.visible
@@ -136,26 +125,6 @@ func rotate_all(rad :float):
 	$AnalogClock3d.rotation.y = -rad
 	$Calendar3d.rotation.y = -rad
 
-var light_state = 0
-func set_light_by_time()->void:
-	var now = Time.get_datetime_dict_from_system()
-	if now["hour"] < 6 or now["hour"] >= 18 :
-		light_on(2)
-	else :
-		light_on(0)
-
-func light_on(s :int)->void:
-	match s %3 :
-		0: # all on
-			$OmniLight3D.visible = true
-			$DirectionalLight3D.visible = true
-		1:
-			$OmniLight3D.visible = true
-			$DirectionalLight3D.visible = false
-		2:
-			$OmniLight3D.visible = false
-			$DirectionalLight3D.visible = true
-
 var old_time_dict = Time.get_datetime_dict_from_system() # datetime dict
 var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
 func _on_timer_timeout() -> void:
@@ -163,15 +132,3 @@ func _on_timer_timeout() -> void:
 	if old_minute_dict["minute"] != time_now_dict["minute"]:
 		$AniMove.start_with_step(1)
 		old_minute_dict = time_now_dict
-
-	if old_time_dict["hour"] != time_now_dict["hour"]:
-		old_time_dict = time_now_dict
-		match time_now_dict["hour"]:
-			6:
-				light_on(0)
-			18:
-				light_on(2)
-			_:
-				pass
-
-

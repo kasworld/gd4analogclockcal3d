@@ -73,11 +73,11 @@ func make_hands(r :float)->void:
 	second_hand_base = make_hand(Global3d.colors.second, Vector3(r*1.3,hand_height,r/72))
 	second_hand_base.position.y = hand_height*3
 
-func make_hand(co :Color, size: Vector3)->Node3D:
+func make_hand(co :Color, hand_size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
 	add_child(hand_base)
-	var hand = Global3d.new_box(size, Global3d.get_color_mat(co))
-	hand.position.x = size.x / 4
+	var hand = Global3d.new_box(hand_size, Global3d.get_color_mat(co))
+	hand.position.x = hand_size.x / 4
 	hand_base.add_child(hand)
 	return hand_base
 

@@ -39,8 +39,8 @@ var colors = {
 func get_color_mat(co: Color)->Material:
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = co
-	mat.metallic = 1
-	mat.clearcoat = true
+	#mat.metallic = 1
+	#mat.clearcoat = true
 	return mat
 
 func new_box(hand_size :Vector3, mat :Material)->MeshInstance3D:
