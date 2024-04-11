@@ -1,12 +1,13 @@
 extends Node3D
 
-var tz_shift :float = 9.0
+var tz_shift :float
 
 var hour_hand_base :Node3D
 var minute_hand_base :Node3D
 var second_hand_base :Node3D
 
-func init(r :float) -> void:
+func init(r :float, tzs :float = 9.0) -> void:
+	tz_shift = tzs
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
 	plane.position.y = -r/60
 	add_child(plane)
