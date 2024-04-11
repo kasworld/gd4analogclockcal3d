@@ -34,8 +34,8 @@ func _ready() -> void:
 	analogclock_pos_list = calendar_pos_list.duplicate()
 	analogclock_pos_list.reverse()
 
-	$AnalogClock3d.init(sect_width/2,config)
-	$AnalogClock3d.position = analogclock_pos_list[0]
+	$ClockSect.init(sect_width/2,config)
+	$ClockSect.position = analogclock_pos_list[0]
 
 	$Calendar3d.init(sect_width,sect_width)
 	$Calendar3d.position = calendar_pos_list[0]
@@ -50,7 +50,7 @@ func _ready() -> void:
 
 func reset_pos()->void:
 	$Calendar3d.position = calendar_pos_list[0]
-	$AnalogClock3d.position = analogclock_pos_list[0]
+	$ClockSect.position = analogclock_pos_list[0]
 	$AniMove.stop()
 
 func animove_toggle()->void:
@@ -63,7 +63,7 @@ func animove_step():
 		return
 	var ms = $AniMove.get_ms()
 	$AniMove.move_position($Calendar3d, calendar_pos_list, ms)
-	$AniMove.move_position($AnalogClock3d, analogclock_pos_list, ms)
+	$AniMove.move_position($ClockSect, analogclock_pos_list, ms)
 
 func reset_camera_pos()->void:
 	$Camera3D.position = Vector3(-1,sect_width/1.35,0)
@@ -122,7 +122,7 @@ func rot_by_accel()->void:
 		rotate_all(rad)
 
 func rotate_all(rad :float):
-	$AnalogClock3d.rotation.y = -rad
+	$ClockSect.rotation.y = -rad
 	$Calendar3d.rotation.y = -rad
 
 var old_time_dict = Time.get_datetime_dict_from_system() # datetime dict

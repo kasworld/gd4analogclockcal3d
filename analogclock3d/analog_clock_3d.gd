@@ -5,12 +5,8 @@ var tz_shift :float = 9.0
 var hour_hand_base :Node3D
 var minute_hand_base :Node3D
 var second_hand_base :Node3D
-var timelabel : MeshInstance3D
-var infolabel : MeshInstance3D
 
-var info_text :InfoText
-
-func init(r :float, config :Dictionary) -> void:
+func init(r :float) -> void:
 	var plane = Global3d.new_cylinder( r/60,  r,r, Global3d.get_color_mat(Global3d.colors.clockbg ) )
 	plane.position.y = -r/60
 	add_child(plane)
@@ -25,42 +21,8 @@ func init(r :float, config :Dictionary) -> void:
 	#cc2.position.y = r/20/2
 	add_child( cc2 )
 
-	# add time label
-	timelabel = Global3d.new_text(r/2.2, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
-	timelabel.rotation.x = deg_to_rad(-90)
-	timelabel.rotation.z = deg_to_rad(-90)
-	timelabel.position = Vector3(r/3.0, 0, 0)
-	add_child(timelabel)
-
-	# add info text label
-	infolabel = Global3d.new_text(r/4, Global3d.get_color_mat(Global3d.colors.infolabel), "No info")
-	infolabel.rotation.x = deg_to_rad(-90)
-	infolabel.rotation.z = deg_to_rad(-90)
-	infolabel.position = Vector3(-r/2.5, 0, 0)
-	add_child(infolabel)
-
-	info_text = InfoText.new()
-	add_child(info_text)
-	info_text.init_request(config.weather_url,config.dayinfo_url,config.todayinfo_url)
-	info_text.text_updated.connect(update_info_text)
-
-func update_info_text(t :String)->void:
-	set_mesh_text(infolabel, t)
-
-func update_req_url(cfg:Dictionary)->void:
-	info_text.update_urls(cfg.weather_url,cfg.dayinfo_url,cfg.todayinfo_url)
-	info_text.force_update()
-
-func set_mesh_text(sp:MeshInstance3D, text :String)->void:
-	sp.mesh.text = text
-
-var old_time_dict = {"second":0} # datetime dict
 func _process(_delta: float) -> void:
 	update_clock()
-	var time_now_dict = Time.get_datetime_dict_from_system()
-	if old_time_dict["second"] != time_now_dict["second"]:
-		old_time_dict = time_now_dict
-		set_mesh_text(timelabel, "%02d:%02d:%02d" % [time_now_dict["hour"] , time_now_dict["minute"] ,time_now_dict["second"]  ] )
 
 func make_hands(r :float)->void:
 	var hand_height = r/180

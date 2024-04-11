@@ -1,16 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_cjool"]
-[ext_resource type="PackedScene" uid="uid://jmb1btvtwi1m" path="res://analogclock3d/analog_clock_3d.tscn" id="1_d6kav"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar3d/calendar_3d.tscn" id="3_yml64"]
 [ext_resource type="PackedScene" uid="uid://btysv8q6rp8ku" path="res://panel_option/panel_option.tscn" id="5_fv6ku"]
 [ext_resource type="PackedScene" uid="uid://ctqhdp0co2165" path="res://FPS/fps.tscn" id="6_nqa4r"]
+[ext_resource type="PackedScene" uid="uid://dlnn1c0j73o4x" path="res://clock_sect/clock_sect.tscn" id="6_rjbbk"]
 [ext_resource type="PackedScene" uid="uid://bf1vkxi8i0lm1" path="res://ani_move/ani_move.tscn" id="6_y5uqp"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cjool")
-
-[node name="AnalogClock3d" parent="." instance=ExtResource("1_d6kav")]
 
 [node name="Calendar3d" parent="." instance=ExtResource("3_yml64")]
 
@@ -36,6 +34,8 @@ autostart = true
 visible = false
 
 [node name="AniMove" parent="." instance=ExtResource("6_y5uqp")]
+
+[node name="ClockSect" parent="." instance=ExtResource("6_rjbbk")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="AutoHideOptionPanel" to="." method="_on_auto_hide_option_panel_timeout"]
