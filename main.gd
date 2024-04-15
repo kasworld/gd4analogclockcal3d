@@ -34,10 +34,10 @@ func _ready() -> void:
 	analogclock_pos_list = calendar_pos_list.duplicate()
 	analogclock_pos_list.reverse()
 
-	$ClockSect.init(sect_width/2,config)
+	$ClockSect.init(sect_width/2, 100, config)
 	$ClockSect.position = analogclock_pos_list[0]
 
-	$Calendar3d.init(sect_width,sect_width)
+	$Calendar3d.init(sect_width,sect_width, 180)
 	$Calendar3d.position = calendar_pos_list[0]
 
 	$DirectionalLight3D.look_at(Vector3.ZERO)
@@ -77,6 +77,8 @@ func _process(_delta: float) -> void:
 	if camera_move:
 		$Camera3D.position = Vector3(sin(t)*sect_width/2 ,sect_width, cos(t)*sect_width/2  )
 		$Camera3D.look_at(Vector3.ZERO)
+	#$ClockSect.rotate_x(_delta)
+	#$Calendar3d.rotate_z(_delta)
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
