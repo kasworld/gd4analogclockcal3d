@@ -18,7 +18,7 @@ func init(r :float, d :float, fsize :float, tzs :float = 9.0, backplane:bool=tru
 
 	make_hands(r,d)
 	make_dial_bar(r,d)
-	make_dial_num(r*0.85 ,d, fsize)
+	make_dial_num(r*0.88 ,d, fsize)
 
 	var cc = Global3d.new_cylinder(d*0.5,r/50,r/50, Global3d.get_color_mat(Global3d.colors.center_circle1))
 	cc.position.y = d*0.5/2

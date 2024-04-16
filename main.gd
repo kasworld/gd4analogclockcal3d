@@ -9,7 +9,7 @@ var editable_keys = [
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 3.3.0",
+	"version" : "gd4analogclockcal3d 3.4.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
@@ -38,7 +38,7 @@ func _ready() -> void:
 	$ClockSect.init(sect_width/2, depth, 100, config)
 	$ClockSect.position = analogclock_pos_list[0]
 
-	$Calendar3d.init(sect_width,sect_width,depth, 180)
+	$Calendar3d.init(sect_width,sect_width,depth, 160, true)
 	$Calendar3d.position = calendar_pos_list[0]
 
 	$DirectionalLight3D.look_at(Vector3.ZERO)
