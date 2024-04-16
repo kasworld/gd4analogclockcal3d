@@ -34,10 +34,10 @@ func _ready() -> void:
 	analogclock_pos_list = calendar_pos_list.duplicate()
 	analogclock_pos_list.reverse()
 
-	$ClockSect.init(sect_width/2, 100, config)
+	$ClockSect.init(sect_width/2, sect_width/20, 100, config)
 	$ClockSect.position = analogclock_pos_list[0]
 
-	$Calendar3d.init(sect_width,sect_width, 180)
+	$Calendar3d.init(sect_width,sect_width,sect_width/20, 180)
 	$Calendar3d.position = calendar_pos_list[0]
 
 	$DirectionalLight3D.look_at(Vector3.ZERO)
