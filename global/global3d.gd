@@ -85,8 +85,6 @@ func new_text(fsize :float, fdepth :float, mat :Material, text :String)->MeshIns
 	sp.mesh = mesh
 	return sp
 
-
-
 func new_torus(r1 :float,r2 :float, mat :Material)->MeshInstance3D:
 	var mesh = TorusMesh.new()
 	mesh.outer_radius = r1
