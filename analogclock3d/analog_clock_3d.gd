@@ -22,7 +22,7 @@ func init(r :float, d :float, fsize :float, tzs :float = 9.0, backplane:bool=tru
 	var cc = Global3d.new_cylinder(d*0.5,r/50,r/50, Global3d.get_color_mat(Global3d.colors.center_circle1))
 	cc.position.y = d*0.5/2
 	add_child(cc)
-	var cc2 = Global3d.new_torus(d*0.5, r/40, Global3d.get_color_mat(Global3d.colors.center_circle2))
+	var cc2 = Global3d.new_torus(r/20, r/40, Global3d.get_color_mat(Global3d.colors.center_circle2))
 	cc2.position.y = d*0.5/2
 	add_child( cc2 )
 
