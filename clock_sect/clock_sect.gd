@@ -13,7 +13,7 @@ func init(r :float,d:float, fsize :float, config :Dictionary) -> void:
 	timelabel = Global3d.new_text(fsize*2.5,text_depth, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
 	timelabel.rotation.x = deg_to_rad(-90)
 	timelabel.rotation.z = deg_to_rad(-90)
-	timelabel.position = Vector3(r*0.25, text_depth*0.5, 0)
+	timelabel.position = Vector3(r*0.2, text_depth*0.5, 0)
 	add_child(timelabel)
 
 	# add info text label
