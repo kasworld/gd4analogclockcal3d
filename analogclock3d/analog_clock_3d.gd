@@ -35,20 +35,20 @@ func _process(_delta: float) -> void:
 
 func make_hands(r :float, d:float)->void:
 	var hand_height = d*0.1
-	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.8,hand_height,r/36))
+	hour_hand_base = make_hand(Global3d.colors.hour ,Vector3(r*0.75,hand_height,r/36))
 	hour_hand_base.position.y = hand_height*1
 
-	minute_hand_base = make_hand(Global3d.colors.minute, Vector3(r*1.0,hand_height,r/54))
+	minute_hand_base = make_hand(Global3d.colors.minute, Vector3(r*0.88,hand_height,r/54))
 	minute_hand_base.position.y = hand_height*2
 
-	second_hand_base = make_hand(Global3d.colors.second, Vector3(r*1.3,hand_height,r/72))
+	second_hand_base = make_hand(Global3d.colors.second, Vector3(r*1.0,hand_height,r/72))
 	second_hand_base.position.y = hand_height*3
 
 func make_hand(co :Color, hand_size: Vector3)->Node3D:
 	var hand_base = Node3D.new()
 	add_child(hand_base)
 	var hand = Global3d.new_box(hand_size, Global3d.get_color_mat(co))
-	hand.position.x = hand_size.x / 4
+	hand.position.x = hand_size.x / 2
 	hand_base.add_child(hand)
 	return hand_base
 
