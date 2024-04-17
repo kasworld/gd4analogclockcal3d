@@ -2,8 +2,8 @@ extends Node3D
 
 class_name AnalogClock3D
 
-enum BarAlign {In,Mid,Out}
-enum NumberType {Hour,Minute,Degree}
+enum BarAlign {None, In,Mid,Out}
+enum NumberType {None, Hour,Minute,Degree}
 
 var tz_shift :float
 var hour_hand_base :Node3D
