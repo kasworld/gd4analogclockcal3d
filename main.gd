@@ -9,7 +9,7 @@ var editable_keys = [
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 4.1.0",
+	"version" : "gd4analogclockcal3d 5.0.0",
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
@@ -35,10 +35,10 @@ func _ready() -> void:
 	analogclock_pos_list.reverse()
 
 	var depth = sect_width/20
-	$ClockSect.init(sect_width/2, depth, 100, config)
+	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config)
 	$ClockSect.position = analogclock_pos_list[0]
 
-	$Calendar3d.init(sect_width,sect_width,depth, 160, true)
+	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	$Calendar3d.position = calendar_pos_list[0]
 
 	$DirectionalLight3D.look_at(Vector3.ZERO)
@@ -67,7 +67,7 @@ func animove_step():
 	$AniMove.move_position($ClockSect, analogclock_pos_list, ms)
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(-1,sect_width/1.35,0)
+	$Camera3D.position = Vector3(-1,sect_width*1.31,0)
 	$Camera3D.look_at(Vector3.ZERO)
 
 var camera_move = false
