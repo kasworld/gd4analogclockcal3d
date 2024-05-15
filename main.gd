@@ -67,7 +67,7 @@ func animove_step():
 	$AniMove.move_position($ClockSect, analogclock_pos_list, ms)
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(-1,sect_width*1.31,0)
+	$Camera3D.position = Vector3(-1,sect_width,0)
 	$Camera3D.look_at(Vector3.ZERO)
 
 var camera_move = false

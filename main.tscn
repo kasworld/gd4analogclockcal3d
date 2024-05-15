@@ -19,6 +19,7 @@ directional_shadow_max_distance = 200.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 keep_aspect = 0
+fov = 90.0
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
