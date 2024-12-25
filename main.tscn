@@ -1,11 +1,68 @@
-[gd_scene load_steps=7 format=3 uid="uid://fqluwi3lx7n1"]
+[gd_scene load_steps=10 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_cjool"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar3d/calendar_3d.tscn" id="3_yml64"]
 [ext_resource type="PackedScene" uid="uid://btysv8q6rp8ku" path="res://panel_option/panel_option.tscn" id="5_fv6ku"]
 [ext_resource type="PackedScene" uid="uid://ctqhdp0co2165" path="res://FPS/fps.tscn" id="6_nqa4r"]
 [ext_resource type="PackedScene" uid="uid://dlnn1c0j73o4x" path="res://clock_sect/clock_sect.tscn" id="6_rjbbk"]
-[ext_resource type="PackedScene" uid="uid://bf1vkxi8i0lm1" path="res://ani_move/ani_move.tscn" id="6_y5uqp"]
+
+[sub_resource type="Animation" id="Animation_4hcir"]
+resource_name = "Move1"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Calendar3d")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ClockSect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_sbtp7"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Calendar3d")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ClockSect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_v1bi6"]
+resource_name = "Move2"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Calendar3d")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ClockSect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o055n"]
+_data = {
+"Move1": SubResource("Animation_4hcir"),
+"Move2": SubResource("Animation_v1bi6"),
+"RESET": SubResource("Animation_sbtp7")
+}
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cjool")
@@ -35,9 +92,12 @@ autostart = true
 [node name="FPS" parent="." instance=ExtResource("6_nqa4r")]
 visible = false
 
-[node name="AniMove" parent="." instance=ExtResource("6_y5uqp")]
-
 [node name="ClockSect" parent="." instance=ExtResource("6_rjbbk")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_o055n")
+}
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="AutoHideOptionPanel" to="." method="_on_auto_hide_option_panel_timeout"]

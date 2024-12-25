@@ -20,8 +20,6 @@ func config_changed(cfg :Dictionary):
 
 var vp_size :Vector2
 var sect_width :float
-var calendar_pos_list :Array
-var analogclock_pos_list :Array
 
 func _ready() -> void:
 	vp_size = get_viewport().get_visible_rect().size
@@ -30,16 +28,30 @@ func _ready() -> void:
 
 	vp_size = get_viewport().get_visible_rect().size
 	sect_width = min(vp_size.x/2,vp_size.y)
-	calendar_pos_list = [Vector3(0,0,-sect_width/2),Vector3(0,0,sect_width/2)]
-	analogclock_pos_list = calendar_pos_list.duplicate()
-	analogclock_pos_list.reverse()
+
+	var calendar_pos = Vector3(0,0,-sect_width/2)
+	var analogclock_pos = Vector3(0,0,sect_width/2)
+
+	$AnimationPlayer.get_animation("RESET").track_set_key_value(0,0, analogclock_pos)
+	$AnimationPlayer.get_animation("RESET").track_set_key_value(1,0, calendar_pos)
+
+	$AnimationPlayer.get_animation("Move1").track_set_key_value(0,0, analogclock_pos)
+	$AnimationPlayer.get_animation("Move1").track_set_key_value(0,1, calendar_pos)
+	$AnimationPlayer.get_animation("Move1").track_set_key_value(1,0, calendar_pos)
+	$AnimationPlayer.get_animation("Move1").track_set_key_value(1,1, analogclock_pos)
+
+	$AnimationPlayer.get_animation("Move2").track_set_key_value(0,0, calendar_pos)
+	$AnimationPlayer.get_animation("Move2").track_set_key_value(0,1, analogclock_pos)
+	$AnimationPlayer.get_animation("Move2").track_set_key_value(1,0, analogclock_pos)
+	$AnimationPlayer.get_animation("Move2").track_set_key_value(1,1, calendar_pos)
+
 
 	var depth = sect_width/20
 	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config)
-	$ClockSect.position = analogclock_pos_list[0]
+	$ClockSect.position = analogclock_pos
 
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
-	$Calendar3d.position = calendar_pos_list[0]
+	$Calendar3d.position = calendar_pos
 
 	$DirectionalLight3D.look_at(Vector3.ZERO)
 	reset_camera_pos()
@@ -50,21 +62,16 @@ func _ready() -> void:
 	$PanelOption.config_reset_req.connect(panel_config_reset_req)
 
 func reset_pos()->void:
-	$Calendar3d.position = calendar_pos_list[0]
-	$ClockSect.position = analogclock_pos_list[0]
-	$AniMove.stop()
+	$AnimationPlayer.play("RESET")
 
-func animove_toggle()->void:
-	$AniMove.toggle()
-	if not $AniMove.enabled:
-		reset_pos()
-
-func animove_step():
-	if not $AniMove.enabled:
-		return
-	var ms = $AniMove.get_ms()
-	$AniMove.move_position($Calendar3d, calendar_pos_list, ms)
-	$AniMove.move_position($ClockSect, analogclock_pos_list, ms)
+var move_order := 0
+func start_move_animation():
+	if move_order == 0 :
+		$AnimationPlayer.play("Move1")
+		move_order = 1
+	else :
+		$AnimationPlayer.play("Move2")
+		move_order = 0
 
 func reset_camera_pos()->void:
 	$Camera3D.position = Vector3(-1,sect_width,0)
@@ -72,7 +79,6 @@ func reset_camera_pos()->void:
 
 var camera_move = false
 func _process(_delta: float) -> void:
-	animove_step()
 	rot_by_accel()
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
@@ -94,6 +100,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_on_button_option_pressed()
 		elif event.keycode == KEY_SPACE:
 			_on_button_option_pressed()
+		elif event.keycode == KEY_Z:
+			start_move_animation()
 
 func _notification(what: int) -> void:
 	# app resume on android
@@ -133,5 +141,5 @@ var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
 func _on_timer_timeout() -> void:
 	var time_now_dict = Time.get_datetime_dict_from_system()
 	if old_minute_dict["minute"] != time_now_dict["minute"]:
-		$AniMove.start_with_step(1)
+		start_move_animation()
 		old_minute_dict = time_now_dict
