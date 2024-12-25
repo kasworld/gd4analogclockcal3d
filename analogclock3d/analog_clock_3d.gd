@@ -54,7 +54,7 @@ func make_hand(co :Color, hand_size: Vector3)->Node3D:
 	return hand_base
 
 func make_dial_bar(r :float, d:float, align :BarAlign):
-	var mat = Global3d.get_color_mat(Global3d.colors.dial_1)
+	var mat = Global3d.get_color_mat(Global3d.colors.dial_bar)
 	var bar_height = d*0.2
 	var bar_size :Vector3
 	for i in 360 :
@@ -81,7 +81,7 @@ func make_dial_bar(r :float, d:float, align :BarAlign):
 
 var multi_bar :MultiMeshInstance3D
 func make_dial_bar_multi(r :float, d:float, align :BarAlign):
-	var mat = Global3d.get_color_mat(Global3d.colors.dial_1)
+	var mat = Global3d.get_color_mat(Global3d.colors.dial_bar)
 	var mesh = BoxMesh.new()
 	mesh.size = Vector3(1,1,1)
 	mesh.material = mat
@@ -178,4 +178,3 @@ func minute2rad(m :float) -> float:
 
 func hour2rad(hour :float) -> float:
 	return 2.0*PI/12.0*hour
-

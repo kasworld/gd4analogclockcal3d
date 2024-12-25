@@ -97,4 +97,3 @@ func _on_timer_timeout() -> void:
 			time_now_dict["year"] , time_now_dict["month"]
 			]
 			)
-

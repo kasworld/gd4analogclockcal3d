@@ -29,8 +29,8 @@ var colors = {
 	second = Color.ORANGE_RED,
 	center_circle1 = Color.PALE_GOLDENROD,
 	center_circle2 = Color.LIGHT_GOLDENROD,
-	dial_num = Color.LIGHT_GRAY,
-	dial_1 = Color.WHEAT,
+	dial_num = Color.DARK_GOLDENROD,
+	dial_bar = Color.GOLDENROD,
 	clockbg = Color.BLACK.lightened(0.3),
 
 	default_clear = Color.BLACK,
