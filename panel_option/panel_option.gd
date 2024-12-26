@@ -9,7 +9,7 @@ func init(filename:String, config:Dictionary, editable_keys:Array, rt :Rect2)->v
 
 	size = rt.size
 	position = rt.position
-	theme.default_font_size = rt.size.y / 10
+	theme.default_font_size = int(rt.size.y / 10.0)
 
 	# make label, lineedit
 	for k in editable_keys:

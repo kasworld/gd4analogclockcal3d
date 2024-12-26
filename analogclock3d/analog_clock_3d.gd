@@ -121,10 +121,10 @@ func make_dial_bar_multi(r :float, d:float, align :BarAlign):
 				bar_position = bar_center*(1 + bar_size.x/r/2)
 		bar_position.y = bar_height/2
 		# make transform from bar_rotation, bar_position, bar_size
-		var tr = Transform3D(Basis(), bar_position)
-		tr = tr.rotated_local(Vector3(0,1,0), bar_rot)
-		tr = tr.scaled_local( bar_size )
-		multimesh.set_instance_transform(i,tr )
+		var tr3 = Transform3D(Basis(), bar_position)
+		tr3 = tr3.rotated_local(Vector3(0,1,0), bar_rot)
+		tr3 = tr3.scaled_local( bar_size )
+		multimesh.set_instance_transform(i,tr3 )
 
 	multi_bar = MultiMeshInstance3D.new()
 	multi_bar.multimesh = multimesh
