@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://FPS/fps.gd" id="1_43us5"]
 
 [sub_resource type="SystemFont" id="SystemFont_xcix8"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_8w82p"]
 font = SubResource("SystemFont_xcix8")
@@ -16,6 +17,7 @@ anchors_preset = 0
 script = ExtResource("1_43us5")
 
 [node name="LabelInfo" type="Label" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_8w82p")
