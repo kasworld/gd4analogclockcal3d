@@ -73,4 +73,3 @@ func split2list(text :String)->Array[String]:
 		if not l.is_empty():
 			rtn.append(l.strip_edges())
 	return rtn
-
