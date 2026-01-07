@@ -21,7 +21,6 @@ var colors := {
 
 var tz_shift :float
 
-
 func init(r :float, d :float, fsize :float, tzs :float = 9.0, backplane:bool=true) -> AnalogClock3D:
 	tz_shift = tzs
 
@@ -35,8 +34,8 @@ func init(r :float, d :float, fsize :float, tzs :float = 9.0, backplane:bool=tru
 	$Center.mesh.bottom_radius = r/50
 	$Center.mesh.material.albedo_color = colors.center_circle1
 	$Center.position.y = d*0.5/2
-	$Donut.mesh.inner_radius = r/40
-	$Donut.mesh.outer_radius = r/20
+	$Donut.mesh.outer_radius = r/20.0
+	$Donut.mesh.inner_radius = r/40.0
 	$Donut.mesh.material.albedo_color = colors.center_circle2
 	$Donut.position.y = d*0.5/2
 
@@ -69,7 +68,9 @@ func make_hands(r :float, d:float)->void:
 
 #var multi_bar :MultiMeshShape
 func make_dial_bar_multi(r :float, d:float, align :BarAlign):
-	$DialBars.init_with_alpha(BoxMesh.new(), 360, 1.0)
+	var mesh := BoxMesh.new()
+	mesh.material = MultiMeshShape.make_color_material()
+	$DialBars.init_with_color_mesh(mesh, 360, 1.0)
 	$DialBars.set_gradient_color_all(colors.dial_1,colors.dial_1)
 	# Set the transform of the instances.
 	var bar_height := d*0.2

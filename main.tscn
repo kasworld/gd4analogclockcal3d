@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" uid="uid://di5wrg7k5mixk" path="res://main.gd" id="1_cjool"]
-[ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar3d/calendar_3d.tscn" id="3_yml64"]
+[ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar_3d/calendar_3d.tscn" id="3_yml64"]
 [ext_resource type="PackedScene" uid="uid://btysv8q6rp8ku" path="res://panel_option/panel_option.tscn" id="5_fv6ku"]
 [ext_resource type="PackedScene" uid="uid://ctqhdp0co2165" path="res://FPS/fps.tscn" id="6_nqa4r"]
 [ext_resource type="PackedScene" uid="uid://dlnn1c0j73o4x" path="res://clock_sect/clock_sect.tscn" id="6_rjbbk"]
