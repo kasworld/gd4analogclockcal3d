@@ -49,8 +49,6 @@ func _ready() -> void:
 
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	$Calendar3d.position = calendar_pos
-	$Calendar3d.rotate_y(PI/2)
-	$Calendar3d.rotate_x(PI/2)
 
 	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
