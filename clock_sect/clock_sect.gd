@@ -7,7 +7,6 @@ var colors = {
 	infolabel = Color.WHITE,
 }
 
-
 var timelabel : MeshInstance3D
 var infolabel : MeshInstance3D
 
@@ -15,20 +14,18 @@ var info_text :InfoText
 
 func init(r :float,d:float, fsize :float, config :Dictionary) -> void:
 	$AnalogClock3d.init(r, d, fsize, 9.0, true)
+	$AnalogClock3d.rotate_y(PI/2)
+	$AnalogClock3d.rotate_x(PI/2)
 
 	var text_depth = d*0.2
 	# add time label
 	timelabel = new_text(fsize*2.5,text_depth, get_color_mat(colors.datelabel), "00:00:00")
-	timelabel.rotation.x = deg_to_rad(-90)
-	timelabel.rotation.z = deg_to_rad(-90)
-	timelabel.position = Vector3(r*0.2, text_depth*0.5, 0)
+	timelabel.position = Vector3(0, r*0.2, text_depth*0.5)
 	add_child(timelabel)
 
 	# add info text label
 	infolabel = new_text(fsize*1.1,text_depth, get_color_mat(colors.infolabel), "No info")
-	infolabel.rotation.x = deg_to_rad(-90)
-	infolabel.rotation.z = deg_to_rad(-90)
-	infolabel.position = Vector3(-r*0.35, text_depth*0.5, 0)
+	infolabel.position = Vector3(0, -r*0.35, text_depth*0.5)
 	add_child(infolabel)
 
 	info_text = InfoText.new()

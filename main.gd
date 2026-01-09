@@ -21,12 +21,12 @@ func config_changed(cfg :Dictionary):
 var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
 	config = Config.load_or_save(file_name,config,"version" )
-	#RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
+
+
 
 	var sect_width = WorldSize.x/2
-
-	var calendar_pos = Vector3(0,0,-sect_width/2)
-	var analogclock_pos = Vector3(0,0,sect_width/2)
+	var calendar_pos = Vector3(-sect_width/2,0,0)
+	var analogclock_pos = Vector3(sect_width/2,0,0)
 	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
 
 	$AnimationPlayer.get_animation("RESET").track_set_key_value(0,0, analogclock_pos)
@@ -49,10 +49,12 @@ func _ready() -> void:
 
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	$Calendar3d.position = calendar_pos
+	$Calendar3d.rotate_y(PI/2)
+	$Calendar3d.rotate_x(PI/2)
 
-	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,sect_width,0),  WorldSize.length()*3)
-	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,sect_width,0),  WorldSize.length()*3)
-	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,sect_width,0),  WorldSize.length()*3)
+	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
+	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
+	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$FixedCameraLight.make_current()
 
 	var vp_size = get_viewport().get_visible_rect().size
@@ -145,8 +147,9 @@ func rot_by_accel()->void:
 		rotate_all(rad)
 
 func rotate_all(rad :float):
-	$ClockSect.rotation.y = -rad
-	$Calendar3d.rotation.y = -rad
+	return
+	$ClockSect.rotation.z = -rad
+	$Calendar3d.rotation.z = -rad
 
 var old_time_dict = Time.get_datetime_dict_from_system() # datetime dict
 var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
