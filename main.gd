@@ -21,7 +21,7 @@ func config_changed(cfg :Dictionary):
 var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
 	config = Config.load_or_save(file_name,config,"version" )
-	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
+	#RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 
 	var sect_width = WorldSize.x/2
 

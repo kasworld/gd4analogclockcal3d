@@ -1,5 +1,13 @@
 extends Node3D
 
+# for calendar
+var colors = {
+	timelabel = Color.WHITE,
+	datelabel = Color.WHITE,
+	infolabel = Color.WHITE,
+}
+
+
 var timelabel : MeshInstance3D
 var infolabel : MeshInstance3D
 
@@ -10,14 +18,14 @@ func init(r :float,d:float, fsize :float, config :Dictionary) -> void:
 
 	var text_depth = d*0.2
 	# add time label
-	timelabel = Global3d.new_text(fsize*2.5,text_depth, Global3d.get_color_mat(Global3d.colors.datelabel), "00:00:00")
+	timelabel = new_text(fsize*2.5,text_depth, get_color_mat(colors.datelabel), "00:00:00")
 	timelabel.rotation.x = deg_to_rad(-90)
 	timelabel.rotation.z = deg_to_rad(-90)
 	timelabel.position = Vector3(r*0.2, text_depth*0.5, 0)
 	add_child(timelabel)
 
 	# add info text label
-	infolabel = Global3d.new_text(fsize*1.1,text_depth, Global3d.get_color_mat(Global3d.colors.infolabel), "No info")
+	infolabel = new_text(fsize*1.1,text_depth, get_color_mat(colors.infolabel), "No info")
 	infolabel.rotation.x = deg_to_rad(-90)
 	infolabel.rotation.z = deg_to_rad(-90)
 	infolabel.position = Vector3(-r*0.35, text_depth*0.5, 0)
@@ -44,3 +52,22 @@ func update_req_url(cfg:Dictionary)->void:
 
 func set_mesh_text(sp:MeshInstance3D, text :String)->void:
 	sp.mesh.text = text
+
+var font = preload("res://font/HakgyoansimBareondotumR.ttf")
+func new_text(fsize :float, fdepth :float, mat :Material, text :String)->MeshInstance3D:
+	var mesh = TextMesh.new()
+	mesh.font = font
+	mesh.depth = fdepth
+	mesh.pixel_size = fsize / 16
+	mesh.text = text
+	mesh.material = mat
+	var sp = MeshInstance3D.new()
+	sp.mesh = mesh
+	return sp
+
+func get_color_mat(co: Color)->Material:
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = co
+	#mat.metallic = 1
+	#mat.clearcoat = true
+	return mat
