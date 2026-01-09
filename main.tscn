@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://fqluwi3lx7n1"]
+[gd_scene load_steps=15 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" uid="uid://di5wrg7k5mixk" path="res://main.gd" id="1_cjool"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar_3d/calendar_3d.tscn" id="3_yml64"]
 [ext_resource type="PackedScene" uid="uid://btysv8q6rp8ku" path="res://panel_option/panel_option.tscn" id="5_fv6ku"]
+[ext_resource type="PackedScene" uid="uid://ces3a6yv0c5fi" path="res://moving_carmera_light/moving_camera_light.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://ctqhdp0co2165" path="res://FPS/fps.tscn" id="6_nqa4r"]
 [ext_resource type="PackedScene" uid="uid://dlnn1c0j73o4x" path="res://clock_sect/clock_sect.tscn" id="6_rjbbk"]
+[ext_resource type="PackedScene" uid="uid://dl14flc0fkeyt" path="res://axis_arrow_3d/axis_arrow_3d.tscn" id="7_272bh"]
 
 [sub_resource type="Animation" id="Animation_4hcir"]
 resource_name = "Move1"
@@ -64,6 +66,17 @@ _data = {
 &"RESET": SubResource("Animation_sbtp7")
 }
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_272bh"]
+
+[sub_resource type="Sky" id="Sky_5vw27"]
+sky_material = SubResource("ProceduralSkyMaterial_272bh")
+
+[sub_resource type="Environment" id="Environment_kek77"]
+background_mode = 2
+sky = SubResource("Sky_5vw27")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cjool")
 
@@ -73,10 +86,6 @@ script = ExtResource("1_cjool")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 1)
 shadow_enabled = true
 directional_shadow_max_distance = 200.0
-
-[node name="Camera3D" type="Camera3D" parent="."]
-keep_aspect = 0
-fov = 90.0
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
@@ -98,6 +107,17 @@ visible = false
 libraries = {
 &"": SubResource("AnimationLibrary_o055n")
 }
+
+[node name="FixedCameraLight" parent="." instance=ExtResource("6_7mycd")]
+
+[node name="MovingCameraLightHober" parent="." instance=ExtResource("6_7mycd")]
+
+[node name="MovingCameraLightAround" parent="." instance=ExtResource("6_7mycd")]
+
+[node name="AxisArrow3D" parent="." instance=ExtResource("7_272bh")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kek77")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="AutoHideOptionPanel" to="." method="_on_auto_hide_option_panel_timeout"]

@@ -18,19 +18,16 @@ func config_changed(cfg :Dictionary):
 	for k in cfg:
 		config[k]=cfg[k]
 
-var vp_size :Vector2
-var sect_width :float
-
+var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
-	vp_size = get_viewport().get_visible_rect().size
 	config = Config.load_or_save(file_name,config,"version" )
 	RenderingServer.set_default_clear_color( Global3d.colors.default_clear)
 
-	vp_size = get_viewport().get_visible_rect().size
-	sect_width = min(vp_size.x/2,vp_size.y)
+	var sect_width = WorldSize.x/2
 
 	var calendar_pos = Vector3(0,0,-sect_width/2)
 	var analogclock_pos = Vector3(0,0,sect_width/2)
+	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
 
 	$AnimationPlayer.get_animation("RESET").track_set_key_value(0,0, analogclock_pos)
 	$AnimationPlayer.get_animation("RESET").track_set_key_value(1,0, calendar_pos)
@@ -53,9 +50,12 @@ func _ready() -> void:
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	$Calendar3d.position = calendar_pos
 
-	$DirectionalLight3D.look_at(Vector3.ZERO)
-	reset_camera_pos()
+	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,sect_width,0),  WorldSize.length()*3)
+	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,sect_width,0),  WorldSize.length()*3)
+	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,sect_width,0),  WorldSize.length()*3)
+	$FixedCameraLight.make_current()
 
+	var vp_size = get_viewport().get_visible_rect().size
 	var optrect = Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.4 )
 	$PanelOption.init(file_name,config,editable_keys, optrect )
 	$PanelOption.config_changed.connect(config_changed)
@@ -73,40 +73,52 @@ func start_move_animation():
 		$AnimationPlayer.play("Move2")
 		move_order = 0
 
-func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(-1,sect_width,0)
-	$Camera3D.look_at(Vector3.ZERO)
-
-var camera_move = false
-func _process(_delta: float) -> void:
-	rot_by_accel()
-	var t = Time.get_unix_time_from_system() /-3.0
-	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*sect_width/2 ,sect_width, cos(t)*sect_width/2  )
-		$Camera3D.look_at(Vector3.ZERO)
-	#$ClockSect.rotate_x(_delta)
-	#$Calendar3d.rotate_z(_delta)
-
-# esc to exit
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_ESCAPE:
-			get_tree().quit()
-		elif event.keycode == KEY_ENTER:
-			camera_move = !camera_move
-			if camera_move == false:
-				reset_camera_pos()
-		elif event.keycode == KEY_TAB:
-			_on_button_option_pressed()
-		elif event.keycode == KEY_SPACE:
-			_on_button_option_pressed()
-		elif event.keycode == KEY_Z:
-			start_move_animation()
-
 func _notification(what: int) -> void:
 	# app resume on android
 	if what == NOTIFICATION_APPLICATION_RESUMED :
 		pass
+
+func _process(_delta: float) -> void:
+	rot_by_accel()
+	var now := Time.get_unix_time_from_system() /-3.0
+	if $MovingCameraLightHober.is_current_camera():
+		$MovingCameraLightHober.move_hober_around_z(now/2.3, Vector3.ZERO, WorldSize.length()/2, WorldSize.length()/4 )
+	elif $MovingCameraLightAround.is_current_camera():
+		$MovingCameraLightAround.move_wave_around_y(now/2.3, Vector3.ZERO, WorldSize.length()/2, WorldSize.length()/4 )
+
+var key2fn = {
+	KEY_ESCAPE:_on_button_esc_pressed,
+	KEY_ENTER:_on_카메라변경_pressed,
+	KEY_PAGEUP:_on_button_fov_up_pressed,
+	KEY_PAGEDOWN:_on_button_fov_down_pressed,
+
+	KEY_TAB : _on_button_option_pressed,
+	KEY_SPACE : _on_button_option_pressed,
+	KEY_Z : start_move_animation,
+}
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		var fn = key2fn.get(event.keycode)
+		if fn != null:
+			fn.call()
+		if $FixedCameraLight.is_current_camera():
+			var fi = FlyNode3D.Key2Info.get(event.keycode)
+			if fi != null:
+				FlyNode3D.fly_node3d($FixedCameraLight, fi)
+	elif event is InputEventMouseButton and event.is_pressed():
+		pass
+
+func _on_button_esc_pressed() -> void:
+	get_tree().quit()
+
+func _on_카메라변경_pressed() -> void:
+	MovingCameraLight.NextCamera()
+
+func _on_button_fov_up_pressed() -> void:
+	MovingCameraLight.GetCurrentCamera().fov_camera_inc()
+
+func _on_button_fov_down_pressed() -> void:
+	MovingCameraLight.GetCurrentCamera().fov_camera_dec()
 
 func _on_button_option_pressed() -> void:
 	$PanelOption.visible = not $PanelOption.visible
