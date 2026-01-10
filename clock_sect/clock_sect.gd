@@ -14,8 +14,8 @@ var info_text :InfoText
 
 func init(r :float,d:float, fsize :float, config :Dictionary) -> void:
 	$AnalogClock3d.init(r, d, fsize, 9.0, true)
-	$AnalogClock3d.rotate_y(PI/2)
-	$AnalogClock3d.rotate_x(PI/2)
+	#$AnalogClock3d.rotate_y(PI/2)
+	#$AnalogClock3d.rotate_x(PI/2)
 
 	var text_depth = d*0.2
 	# add time label
