@@ -18,40 +18,32 @@ func config_changed(cfg :Dictionary):
 	for k in cfg:
 		config[k]=cfg[k]
 
+var main_animation := Animation3D.new()
+var anipos_list := []
+func reset_pos()->void:
+	$ClockSect.position = anipos_list[0]
+	$Calendar3d.position = anipos_list[1]
+func start_move_animation():
+	main_animation.start_move("clock",$ClockSect, anipos_list[0], anipos_list[1], 1)
+	main_animation.start_move("clock",$Calendar3d, anipos_list[1], anipos_list[0], 1)
+	anipos_list = [anipos_list[1], anipos_list[0]]
+
 var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
 	config = Config.load_or_save(file_name,config,"version" )
 
 	var sect_width = WorldSize.x/2
-	var calendar_pos = Vector3(-sect_width/2,0,0)
-	var analogclock_pos = Vector3(sect_width/2,0,0)
-	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
-
-	$AnimationPlayer.get_animation("RESET").track_set_key_value(0,0, analogclock_pos)
-	$AnimationPlayer.get_animation("RESET").track_set_key_value(1,0, calendar_pos)
-
-	$AnimationPlayer.get_animation("Move1").track_set_key_value(0,0, analogclock_pos)
-	$AnimationPlayer.get_animation("Move1").track_set_key_value(0,1, calendar_pos)
-	$AnimationPlayer.get_animation("Move1").track_set_key_value(1,0, calendar_pos)
-	$AnimationPlayer.get_animation("Move1").track_set_key_value(1,1, analogclock_pos)
-
-	$AnimationPlayer.get_animation("Move2").track_set_key_value(0,0, calendar_pos)
-	$AnimationPlayer.get_animation("Move2").track_set_key_value(0,1, analogclock_pos)
-	$AnimationPlayer.get_animation("Move2").track_set_key_value(1,0, analogclock_pos)
-	$AnimationPlayer.get_animation("Move2").track_set_key_value(1,1, calendar_pos)
-
-
+	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
 	var depth = sect_width/20
 	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config)
-	$ClockSect.position = analogclock_pos
-
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
-	$Calendar3d.position = calendar_pos
+	reset_pos()
 
 	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$FixedCameraLight.make_current()
+	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
 
 	var vp_size = get_viewport().get_visible_rect().size
 	var optrect = Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.4 )
@@ -59,30 +51,25 @@ func _ready() -> void:
 	$PanelOption.config_changed.connect(config_changed)
 	$PanelOption.config_reset_req.connect(panel_config_reset_req)
 
-func reset_pos()->void:
-	$AnimationPlayer.play("RESET")
-
-var move_order := 0
-func start_move_animation():
-	if move_order == 0 :
-		$AnimationPlayer.play("Move1")
-		move_order = 1
-	else :
-		$AnimationPlayer.play("Move2")
-		move_order = 0
-
 func _notification(what: int) -> void:
 	# app resume on android
 	if what == NOTIFICATION_APPLICATION_RESUMED :
 		pass
 
+var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
 func _process(_delta: float) -> void:
 	rot_by_accel()
+	main_animation.handle_animation()
 	var now := Time.get_unix_time_from_system() /-3.0
 	if $MovingCameraLightHober.is_current_camera():
 		$MovingCameraLightHober.move_hober_around_z(now/2.3, Vector3.ZERO, WorldSize.length()/2, WorldSize.length()/4 )
 	elif $MovingCameraLightAround.is_current_camera():
 		$MovingCameraLightAround.move_wave_around_y(now/2.3, Vector3.ZERO, WorldSize.length()/2, WorldSize.length()/4 )
+
+	var time_now_dict = Time.get_datetime_dict_from_system()
+	if old_minute_dict["minute"] != time_now_dict["minute"]:
+		old_minute_dict = time_now_dict
+		start_move_animation()
 
 var key2fn = {
 	KEY_ESCAPE:_on_button_esc_pressed,
@@ -145,11 +132,3 @@ func rot_by_accel()->void:
 func rotate_all(rad :float):
 	$ClockSect.rotation.z = -rad
 	$Calendar3d.rotation.z = -rad
-
-var old_time_dict = Time.get_datetime_dict_from_system() # datetime dict
-var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
-func _on_timer_timeout() -> void:
-	var time_now_dict = Time.get_datetime_dict_from_system()
-	if old_minute_dict["minute"] != time_now_dict["minute"]:
-		start_move_animation()
-		old_minute_dict = time_now_dict
