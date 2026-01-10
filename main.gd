@@ -9,7 +9,9 @@ var editable_keys = [
 
 var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "gd4analogclockcal3d 5.0.0",
+	"version" : "%s %s" % [
+			ProjectSettings.get_setting("application/config/name"),
+			ProjectSettings.get_setting("application/config/version") ],
 	"weather_url" : "http://192.168.0.10/weather.txt",
 	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
 	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
@@ -17,6 +19,8 @@ var config = {
 func config_changed(cfg :Dictionary):
 	for k in cfg:
 		config[k]=cfg[k]
+func panel_config_reset_req()->void:
+	$PanelOption.config_to_control(file_name,config,editable_keys)
 
 var main_animation := Animation3D.new()
 var anipos_list := []
@@ -111,8 +115,6 @@ func _on_button_option_pressed() -> void:
 func _on_auto_hide_option_panel_timeout() -> void:
 	$PanelOption.hide()
 
-func panel_config_reset_req()->void:
-	$PanelOption.config_to_control(file_name,config,editable_keys)
 
 var oldvt = Vector2(0,-100)
 func rot_by_accel()->void:
