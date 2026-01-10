@@ -22,8 +22,6 @@ var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
 	config = Config.load_or_save(file_name,config,"version" )
 
-
-
 	var sect_width = WorldSize.x/2
 	var calendar_pos = Vector3(-sect_width/2,0,0)
 	var analogclock_pos = Vector3(sect_width/2,0,0)
@@ -145,7 +143,6 @@ func rot_by_accel()->void:
 		rotate_all(rad)
 
 func rotate_all(rad :float):
-	return
 	$ClockSect.rotation.z = -rad
 	$Calendar3d.rotation.z = -rad
 
