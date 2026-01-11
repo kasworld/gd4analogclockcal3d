@@ -18,22 +18,39 @@ func start_move_animation():
 
 func on_viewport_size_changed() -> void:
 	var vp_size := get_viewport().get_visible_rect().size
-	#var 짧은길이 :float = min(vp_size.x, vp_size.y)
-	#var panel_size := Vector2(vp_size.x/2 - 짧은길이/2, vp_size.y)
-	#$"왼쪽패널".size = panel_size
-	#$"왼쪽패널".custom_minimum_size = panel_size
-	#$오른쪽패널.size = panel_size
-	#$"오른쪽패널".custom_minimum_size = panel_size
-	#$오른쪽패널.position = Vector2(vp_size.x/2 + 짧은길이/2, 0)
+	var 짧은길이 :float = min(vp_size.x, vp_size.y)
+	var panel_size := Vector2(vp_size.x/2 - 짧은길이/2, vp_size.y)
+	$"왼쪽패널".size = panel_size
+	$"왼쪽패널".custom_minimum_size = panel_size
+	$오른쪽패널.size = panel_size
+	$"오른쪽패널".custom_minimum_size = panel_size
+	$오른쪽패널.position = Vector2(vp_size.x/2 + 짧은길이/2, 0)
 	var msgrect := Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.25)
+	$TimedMessage.init(vp_size.y*0.05 , msgrect, "%s %s" % [
+			ProjectSettings.get_setting("application/config/name"),
+			ProjectSettings.get_setting("application/config/version"),
+			])
 	var msg := ""
 	for k in config:
 		msg += "%s : %s\n" % [k, config[k] ]
-	$TimedMessage.init(vp_size.y*0.05 , msgrect, "%s %s\n%s" % [
-			ProjectSettings.get_setting("application/config/name"),
-			ProjectSettings.get_setting("application/config/version"),
-			msg,
-			])
+	$"왼쪽패널/LabelConfig".text = msg
+
+func label_demo() -> void:
+	if $"오른쪽패널/LabelPerformance".visible:
+		$"오른쪽패널/LabelPerformance".text = """%d FPS (%.2f mspf)
+Currently rendering: occlusion culling:%s
+%d objects
+%dK primitive indices
+%d draw calls""" % [
+		Engine.get_frames_per_second(),1000.0 / Engine.get_frames_per_second(),
+		get_tree().root.use_occlusion_culling,
+		RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME),
+		RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME) * 0.001,
+		RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
+		]
+	if $"오른쪽패널/LabelInfo".visible:
+		$"오른쪽패널/LabelInfo".text = "%s" % [ MovingCameraLight.GetCurrentCamera() ]
+
 func timed_message_hidden(_s :String) -> void:
 	pass
 
@@ -42,10 +59,7 @@ func _ready() -> void:
 	on_viewport_size_changed()
 	get_viewport().size_changed.connect(on_viewport_size_changed)
 	$TimedMessage.panel_hidden.connect(timed_message_hidden)
-	var msg := ""
-	#for k in config:
-		#msg += "%s : %s\n" % [k, config[k] ]
-	$TimedMessage.show_message(msg,1)
+	$TimedMessage.show_message("",1)
 
 	var sect_width = WorldSize.x/2
 	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
@@ -67,6 +81,7 @@ func _notification(what: int) -> void:
 
 var old_minute_dict = Time.get_datetime_dict_from_system() # datetime dict
 func _process(_delta: float) -> void:
+	label_demo()
 	rot_by_accel()
 	main_animation.handle_animation()
 	var now := Time.get_unix_time_from_system() /-3.0
