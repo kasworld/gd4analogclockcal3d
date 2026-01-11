@@ -6,7 +6,6 @@ signal config_reset_req()
 var lineedit_dict = {}
 
 func init(filename:String, config:Dictionary, editable_keys:Array, rt :Rect2)->void:
-
 	size = rt.size
 	position = rt.position
 	theme.default_font_size = int(rt.size.y / 10.0)

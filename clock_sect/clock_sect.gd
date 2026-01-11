@@ -30,7 +30,10 @@ func init(r :float,d:float, fsize :float, config :Dictionary) -> void:
 
 	info_text = InfoText.new()
 	add_child(info_text)
-	info_text.init_request(config.weather_url,config.dayinfo_url,config.todayinfo_url)
+	info_text.init_request(
+		config.base_url + config.weather_file,
+		config.base_url + config.dayinfo_file,
+		config.base_url + config.todayinfo_file)
 	info_text.text_updated.connect(_on_update_info_text)
 
 var old_time_dict = {"second":0} # datetime dict

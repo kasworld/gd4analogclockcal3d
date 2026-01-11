@@ -1,27 +1,11 @@
 extends Node3D
 
-#var version_key = "version"
-var editable_keys = [
-	"weather_url",
-	"dayinfo_url",
-	"todayinfo_url",
-	]
-
-var file_name = "gd4analogclockcal3d_config.json"
 var config = {
-	"version" : "%s %s" % [
-			ProjectSettings.get_setting("application/config/name"),
-			ProjectSettings.get_setting("application/config/version") ],
-	"weather_url" : "http://192.168.0.10/weather.txt",
-	"dayinfo_url" : "http://192.168.0.10/dayinfo.txt",
-	"todayinfo_url" : "http://192.168.0.10/todayinfo.txt",
+	"base_url" : "http://192.168.0.10/",
+	"weather_file" : "weather.txt",
+	"dayinfo_file" : "dayinfo.txt",
+	"todayinfo_file" : "todayinfo.txt",
 }
-func config_changed(cfg :Dictionary):
-	for k in cfg:
-		config[k]=cfg[k]
-func panel_config_reset_req()->void:
-	$PanelOption.config_to_control(file_name,config,editable_keys)
-
 var main_animation := Animation3D.new()
 var anipos_list := []
 func reset_pos()->void:
@@ -32,9 +16,36 @@ func start_move_animation():
 	main_animation.start_move("clock",$Calendar3d, anipos_list[1], anipos_list[0], 1)
 	anipos_list = [anipos_list[1], anipos_list[0]]
 
+func on_viewport_size_changed() -> void:
+	var vp_size := get_viewport().get_visible_rect().size
+	#var 짧은길이 :float = min(vp_size.x, vp_size.y)
+	#var panel_size := Vector2(vp_size.x/2 - 짧은길이/2, vp_size.y)
+	#$"왼쪽패널".size = panel_size
+	#$"왼쪽패널".custom_minimum_size = panel_size
+	#$오른쪽패널.size = panel_size
+	#$"오른쪽패널".custom_minimum_size = panel_size
+	#$오른쪽패널.position = Vector2(vp_size.x/2 + 짧은길이/2, 0)
+	var msgrect := Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.25)
+	var msg := ""
+	for k in config:
+		msg += "%s : %s\n" % [k, config[k] ]
+	$TimedMessage.init(vp_size.y*0.05 , msgrect, "%s %s\n%s" % [
+			ProjectSettings.get_setting("application/config/name"),
+			ProjectSettings.get_setting("application/config/version"),
+			msg,
+			])
+func timed_message_hidden(_s :String) -> void:
+	pass
+
 var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
-	config = Config.load_or_save(file_name,config,"version" )
+	on_viewport_size_changed()
+	get_viewport().size_changed.connect(on_viewport_size_changed)
+	$TimedMessage.panel_hidden.connect(timed_message_hidden)
+	var msg := ""
+	#for k in config:
+		#msg += "%s : %s\n" % [k, config[k] ]
+	$TimedMessage.show_message(msg,1)
 
 	var sect_width = WorldSize.x/2
 	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
@@ -48,12 +59,6 @@ func _ready() -> void:
 	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$FixedCameraLight.make_current()
 	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
-
-	var vp_size = get_viewport().get_visible_rect().size
-	var optrect = Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.4 )
-	$PanelOption.init(file_name,config,editable_keys, optrect )
-	$PanelOption.config_changed.connect(config_changed)
-	$PanelOption.config_reset_req.connect(panel_config_reset_req)
 
 func _notification(what: int) -> void:
 	# app resume on android
@@ -110,11 +115,7 @@ func _on_button_fov_down_pressed() -> void:
 	MovingCameraLight.GetCurrentCamera().fov_camera_dec()
 
 func _on_button_option_pressed() -> void:
-	$PanelOption.visible = not $PanelOption.visible
-
-func _on_auto_hide_option_panel_timeout() -> void:
-	$PanelOption.hide()
-
+	$TimedMessage.show_message("",3)
 
 var oldvt = Vector2(0,-100)
 func rot_by_accel()->void:
