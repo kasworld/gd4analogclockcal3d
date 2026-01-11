@@ -25,11 +25,11 @@ func on_viewport_size_changed() -> void:
 	$오른쪽패널.size = panel_size
 	$"오른쪽패널".custom_minimum_size = panel_size
 	$오른쪽패널.position = Vector2(vp_size.x/2 + 짧은길이/2, 0)
-	var msgrect := Rect2( vp_size.x * 0.1 ,vp_size.y * 0.3 , vp_size.x * 0.8 , vp_size.y * 0.25)
-	$TimedMessage.init(vp_size.y*0.05 , msgrect, "%s %s" % [
+
+	$"왼쪽패널/LabelVersion".text = "%s %s" % [
 			ProjectSettings.get_setting("application/config/name"),
 			ProjectSettings.get_setting("application/config/version"),
-			])
+			]
 	var msg := ""
 	for k in config:
 		msg += "%s : %s\n" % [k, config[k] ]
@@ -51,15 +51,11 @@ Currently rendering: occlusion culling:%s
 	if $"오른쪽패널/LabelInfo".visible:
 		$"오른쪽패널/LabelInfo".text = "%s" % [ MovingCameraLight.GetCurrentCamera() ]
 
-func timed_message_hidden(_s :String) -> void:
-	pass
-
 var WorldSize := Vector3(160,90,80)
 func _ready() -> void:
 	on_viewport_size_changed()
 	get_viewport().size_changed.connect(on_viewport_size_changed)
-	$TimedMessage.panel_hidden.connect(timed_message_hidden)
-	$TimedMessage.show_message("",1)
+	_on_button_패널보이기_pressed()
 
 	var sect_width = WorldSize.x/2
 	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
@@ -101,8 +97,8 @@ var key2fn = {
 	KEY_PAGEUP:_on_button_fov_up_pressed,
 	KEY_PAGEDOWN:_on_button_fov_down_pressed,
 
-	KEY_TAB : _on_button_option_pressed,
-	KEY_SPACE : _on_button_option_pressed,
+	KEY_TAB : _on_button_패널보이기_pressed,
+	KEY_SPACE : _on_button_패널보이기_pressed,
 	KEY_Z : start_move_animation,
 }
 func _unhandled_input(event: InputEvent) -> void:
@@ -129,8 +125,16 @@ func _on_button_fov_up_pressed() -> void:
 func _on_button_fov_down_pressed() -> void:
 	MovingCameraLight.GetCurrentCamera().fov_camera_dec()
 
-func _on_button_option_pressed() -> void:
-	$TimedMessage.show_message("",3)
+func _on_button_패널보이기_pressed() -> void:
+	패널보이기(true)
+	$"Timer패널숨기기".start(3)
+
+func _on_timer패널숨기기_timeout() -> void:
+	패널보이기(false)
+
+func 패널보이기(b :bool) -> void:
+	$"왼쪽패널".visible = b
+	$"오른쪽패널".visible = b
 
 var oldvt = Vector2(0,-100)
 func rot_by_accel()->void:

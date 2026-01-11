@@ -1,10 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://fqluwi3lx7n1"]
+[gd_scene load_steps=11 format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" uid="uid://di5wrg7k5mixk" path="res://main.gd" id="1_cjool"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar_3d/calendar_3d.tscn" id="3_yml64"]
 [ext_resource type="PackedScene" uid="uid://ces3a6yv0c5fi" path="res://moving_carmera_light/moving_camera_light.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dlnn1c0j73o4x" path="res://clock_sect/clock_sect.tscn" id="6_rjbbk"]
-[ext_resource type="PackedScene" uid="uid://c6cct2gj2a3im" path="res://timed_message/timed_message.tscn" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dl14flc0fkeyt" path="res://axis_arrow_3d/axis_arrow_3d.tscn" id="7_272bh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_272bh"]
@@ -17,12 +16,6 @@ background_mode = 2
 sky = SubResource("Sky_5vw27")
 ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
-
-[sub_resource type="SystemFont" id="SystemFont_bejao"]
-
-[sub_resource type="Theme" id="Theme_kek77"]
-resource_local_to_scene = true
-default_font = SubResource("SystemFont_bejao")
 
 [sub_resource type="Theme" id="Theme_272bh"]
 default_font_size = 48
@@ -54,13 +47,13 @@ visible = false
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kek77")
 
-[node name="TimedMessage" parent="." instance=ExtResource("7_5vw27")]
-theme = SubResource("Theme_kek77")
-
 [node name="왼쪽패널" type="VBoxContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
 theme = SubResource("Theme_272bh")
+
+[node name="LabelVersion" type="Label" parent="왼쪽패널"]
+layout_mode = 2
 
 [node name="LabelConfig" type="Label" parent="왼쪽패널"]
 layout_mode = 2
@@ -77,3 +70,8 @@ autowrap_mode = 3
 [node name="LabelInfo" type="Label" parent="오른쪽패널"]
 layout_mode = 2
 autowrap_mode = 3
+
+[node name="Timer패널숨기기" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer패널숨기기" to="." method="_on_timer패널숨기기_timeout"]
