@@ -12,8 +12,8 @@ var infolabel : MeshInstance3D
 
 var info_text :InfoText
 
-func init(r :float,d:float, fsize :float, config :Dictionary) -> void:
-	$AnalogClock3d.init(r, d, fsize, 9.0, true)
+func init(r :float,d:float, fsize :float, config :Dictionary, backplane:bool=true) -> void:
+	$AnalogClock3d.init(r, d, fsize, 9.0, backplane)
 	#$AnalogClock3d.rotate_y(PI/2)
 	#$AnalogClock3d.rotate_x(PI/2)
 

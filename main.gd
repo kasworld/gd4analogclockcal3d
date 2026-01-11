@@ -6,15 +6,19 @@ var config = {
 	"dayinfo_file" : "dayinfo.txt",
 	"todayinfo_file" : "todayinfo.txt",
 }
-var main_animation := Animation3D.new()
+var main_animation := SimpleAnimation.new()
 var anipos_list := []
+var rot_args := [ [0.0, 2*PI], [2*PI, 0.0] ]
 func reset_pos()->void:
 	$ClockSect.position = anipos_list[0]
 	$Calendar3d.position = anipos_list[1]
 func start_move_animation():
 	main_animation.start_move("clock",$ClockSect, anipos_list[0], anipos_list[1], 1)
+	main_animation.start_rotate_subfield("clock",$ClockSect, Vector3.Axis.AXIS_Y, rot_args[0][0] , rot_args[0][1], 1)
 	main_animation.start_move("clock",$Calendar3d, anipos_list[1], anipos_list[0], 1)
+	main_animation.start_rotate_subfield("clock",$Calendar3d, Vector3.Axis.AXIS_Y, rot_args[1][0], rot_args[1][1], 1)
 	anipos_list = [anipos_list[1], anipos_list[0]]
+	rot_args = [rot_args[1], rot_args[0]]
 
 func on_viewport_size_changed() -> void:
 	var vp_size := get_viewport().get_visible_rect().size
@@ -60,8 +64,8 @@ func _ready() -> void:
 	var sect_width = WorldSize.x/2
 	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
 	var depth = sect_width/20
-	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config)
-	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
+	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config, false)
+	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, false)
 	reset_pos()
 
 	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
