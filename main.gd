@@ -64,8 +64,8 @@ func _ready() -> void:
 	var sect_width = WorldSize.x/2
 	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
 	var depth = sect_width/20
-	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config, false)
-	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, false)
+	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config, true)
+	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	reset_pos()
 
 	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
