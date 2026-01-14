@@ -124,10 +124,10 @@ func _on_카메라변경_pressed() -> void:
 	MovingCameraLight.NextCamera()
 
 func _on_button_fov_up_pressed() -> void:
-	MovingCameraLight.GetCurrentCamera().fov_camera_inc()
+	MovingCameraLight.GetCurrentCamera().camera_fov_inc()
 
 func _on_button_fov_down_pressed() -> void:
-	MovingCameraLight.GetCurrentCamera().fov_camera_dec()
+	MovingCameraLight.GetCurrentCamera().camera_fov_dec()
 
 func _on_button_패널보이기_pressed() -> void:
 	패널보이기(true)
