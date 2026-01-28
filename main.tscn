@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://fqluwi3lx7n1"]
+[gd_scene format=3 uid="uid://fqluwi3lx7n1"]
 
 [ext_resource type="Script" uid="uid://di5wrg7k5mixk" path="res://main.gd" id="1_cjool"]
 [ext_resource type="PackedScene" uid="uid://b7xxw75asvp0w" path="res://calendar_3d/calendar_3d.tscn" id="3_yml64"]
@@ -23,55 +23,55 @@ default_font_size = 48
 [sub_resource type="Theme" id="Theme_7mycd"]
 default_font_size = 24
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=1928312790]
 script = ExtResource("1_cjool")
 
-[node name="Calendar3d" parent="." instance=ExtResource("3_yml64")]
+[node name="Calendar3d" parent="." unique_id=1485668457 instance=ExtResource("3_yml64")]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145954991]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 1)
 shadow_enabled = true
 directional_shadow_max_distance = 200.0
 
-[node name="ClockSect" parent="." instance=ExtResource("6_rjbbk")]
+[node name="ClockSect" parent="." unique_id=200084500 instance=ExtResource("6_rjbbk")]
 
-[node name="FixedCameraLight" parent="." instance=ExtResource("6_7mycd")]
+[node name="FixedCameraLight" parent="." unique_id=1213490477 instance=ExtResource("6_7mycd")]
 
-[node name="MovingCameraLightHober" parent="." instance=ExtResource("6_7mycd")]
+[node name="MovingCameraLightHober" parent="." unique_id=171121681 instance=ExtResource("6_7mycd")]
 
-[node name="MovingCameraLightAround" parent="." instance=ExtResource("6_7mycd")]
+[node name="MovingCameraLightAround" parent="." unique_id=1825449052 instance=ExtResource("6_7mycd")]
 
-[node name="AxisArrow3D" parent="." instance=ExtResource("7_272bh")]
+[node name="AxisArrow3D" parent="." unique_id=1755721480 instance=ExtResource("7_272bh")]
 visible = false
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1754279262]
 environment = SubResource("Environment_kek77")
 
-[node name="왼쪽패널" type="VBoxContainer" parent="."]
+[node name="왼쪽패널" type="VBoxContainer" parent="." unique_id=204895666]
 offset_right = 40.0
 offset_bottom = 40.0
 theme = SubResource("Theme_272bh")
 
-[node name="LabelVersion" type="Label" parent="왼쪽패널"]
+[node name="LabelVersion" type="Label" parent="왼쪽패널" unique_id=2052674862]
 layout_mode = 2
 
-[node name="LabelConfig" type="Label" parent="왼쪽패널"]
+[node name="LabelConfig" type="Label" parent="왼쪽패널" unique_id=320382850]
 layout_mode = 2
 
-[node name="오른쪽패널" type="VBoxContainer" parent="."]
+[node name="오른쪽패널" type="VBoxContainer" parent="." unique_id=1081209450]
 offset_right = 40.0
 offset_bottom = 40.0
 theme = SubResource("Theme_7mycd")
 
-[node name="LabelPerformance" type="Label" parent="오른쪽패널"]
+[node name="LabelPerformance" type="Label" parent="오른쪽패널" unique_id=152236847]
 layout_mode = 2
 autowrap_mode = 3
 
-[node name="LabelInfo" type="Label" parent="오른쪽패널"]
+[node name="LabelInfo" type="Label" parent="오른쪽패널" unique_id=315774899]
 layout_mode = 2
 autowrap_mode = 3
 
-[node name="Timer패널숨기기" type="Timer" parent="."]
+[node name="Timer패널숨기기" type="Timer" parent="." unique_id=489624212]
 one_shot = true
 
 [connection signal="timeout" from="Timer패널숨기기" to="." method="_on_timer패널숨기기_timeout"]

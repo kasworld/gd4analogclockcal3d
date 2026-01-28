@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dlnn1c0j73o4x"]
+[gd_scene format=3 uid="uid://dlnn1c0j73o4x"]
 
 [ext_resource type="Script" uid="uid://c111whdplimnb" path="res://clock_sect/clock_sect.gd" id="1_57vxw"]
 [ext_resource type="PackedScene" uid="uid://jmb1btvtwi1m" path="res://analog_clock_3d/analog_clock_3d.tscn" id="2_kliba"]
 
-[node name="ClockSect" type="Node3D"]
+[node name="ClockSect" type="Node3D" unique_id=1394763425]
 script = ExtResource("1_57vxw")
 
-[node name="AnalogClock3d" parent="." instance=ExtResource("2_kliba")]
+[node name="AnalogClock3d" parent="." unique_id=1643771749 instance=ExtResource("2_kliba")]
