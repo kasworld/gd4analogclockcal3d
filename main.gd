@@ -55,7 +55,7 @@ Currently rendering: occlusion culling:%s
 	if $"오른쪽패널/LabelInfo".visible:
 		$"오른쪽패널/LabelInfo".text = "%s" % [ MovingCameraLight.GetCurrentCamera() ]
 
-var WorldSize := Vector3(160,90,80)
+var WorldSize := Vector3(160,90,8)
 func _ready() -> void:
 	on_viewport_size_changed()
 	get_viewport().size_changed.connect(on_viewport_size_changed)
@@ -63,17 +63,16 @@ func _ready() -> void:
 
 	var sect_width = WorldSize.x/2
 	anipos_list = [Vector3(-sect_width/2,0,0), Vector3(sect_width/2,0,0)]
-	var depth = sect_width/20
+	var depth = WorldSize.z
 	$ClockSect.init(sect_width/2, depth, sect_width*0.06, config, true)
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	reset_pos()
 
-	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
-	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
+	var camera_pos := Vector3(0,0,CalcZLenByFov($FixedCameraLight.get_camera(), WorldSize))
+	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, camera_pos,  WorldSize.length()*3)
+	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, camera_pos,  WorldSize.length()*3)
 	$FixedCameraLight.make_current()
-	$FixedCameraLight.set_center_pos_far(Vector3.ZERO,
-		Vector3(0,0,CalcZLenByFov($FixedCameraLight.get_camera(), WorldSize)),
-		WorldSize.length()*3)
+	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, camera_pos, WorldSize.length()*3)
 	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
 
 static func CalcZLenByFov(camera3d :Camera3D, sz :Vector3) -> float:
