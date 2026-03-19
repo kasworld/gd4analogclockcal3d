@@ -71,13 +71,19 @@ func _ready() -> void:
 	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, Vector3(-1,0,sect_width),  WorldSize.length()*3)
 	$FixedCameraLight.make_current()
-	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, Vector3(0,0,calc_fill_h_len_by_fov($FixedCameraLight)), WorldSize.length()*3)
+	$FixedCameraLight.set_center_pos_far(Vector3.ZERO,
+		Vector3(0,0,CalcZLenByFov($FixedCameraLight.get_camera(), WorldSize)),
+		WorldSize.length()*3)
 	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
 
-func calc_fill_h_len_by_fov(mcl :MovingCameraLight) -> float:
-	var hfov :float = mcl.camera_fov.get_value()
-	return WorldSize.y/2 / tan(deg_to_rad(hfov/2))
-
+static func CalcZLenByFov(camera3d :Camera3D, sz :Vector3) -> float:
+	var fov_rad := deg_to_rad(camera3d.fov)
+	match camera3d.keep_aspect:
+		Camera3D.KEEP_WIDTH:
+			return sz.x/2 / tan(fov_rad/2)
+		Camera3D.KEEP_HEIGHT:
+			return sz.y/2 / tan(fov_rad/2)
+	return sz.z
 
 func _notification(what: int) -> void:
 	# app resume on android
