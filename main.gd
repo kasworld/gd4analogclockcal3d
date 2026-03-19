@@ -68,21 +68,12 @@ func _ready() -> void:
 	$Calendar3d.init(sect_width,sect_width,depth, sect_width*0.09, true)
 	reset_pos()
 
-	var camera_pos := Vector3(0,0,CalcZLenByFov($FixedCameraLight.get_camera(), WorldSize))
+	var camera_pos := Vector3(0,0,$FixedCameraLight.calc_z_len_by_fov_size(WorldSize))
 	$MovingCameraLightHober.set_center_pos_far(Vector3.ZERO, camera_pos,  WorldSize.length()*3)
 	$MovingCameraLightAround.set_center_pos_far(Vector3.ZERO, camera_pos,  WorldSize.length()*3)
 	$FixedCameraLight.make_current()
 	$FixedCameraLight.set_center_pos_far(Vector3.ZERO, camera_pos, WorldSize.length()*3)
 	$AxisArrow3D.set_size(WorldSize.length()/10).set_colors()
-
-static func CalcZLenByFov(camera3d :Camera3D, sz :Vector3) -> float:
-	var fov_rad := deg_to_rad(camera3d.fov)
-	match camera3d.keep_aspect:
-		Camera3D.KEEP_WIDTH:
-			return sz.x/2 / tan(fov_rad/2)
-		Camera3D.KEEP_HEIGHT:
-			return sz.y/2 / tan(fov_rad/2)
-	return sz.z
 
 func _notification(what: int) -> void:
 	# app resume on android
@@ -134,10 +125,10 @@ func _on_카메라변경_pressed() -> void:
 	MovingCameraLight.NextCamera()
 
 func _on_button_fov_up_pressed() -> void:
-	MovingCameraLight.GetCurrentCamera().camera_fov_inc()
+	MovingCameraLight.GetCurrentCamera().fov_inc()
 
 func _on_button_fov_down_pressed() -> void:
-	MovingCameraLight.GetCurrentCamera().camera_fov_dec()
+	MovingCameraLight.GetCurrentCamera().fov_dec()
 
 func _on_button_패널보이기_pressed() -> void:
 	패널보이기(true)
