@@ -6,7 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://dlnn1c0j73o4x" path="res://clock_sect/clock_sect.tscn" id="6_rjbbk"]
 [ext_resource type="PackedScene" uid="uid://dl14flc0fkeyt" path="res://axis_arrow_3d/axis_arrow_3d.tscn" id="7_272bh"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lquwl"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7mycd"]
+noise = SubResource("FastNoiseLite_lquwl")
+seamless = true
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_272bh"]
+sky_top_color = Color(0, 0, 1, 1)
+sky_horizon_color = Color(0.79592234, 0.63349676, 0.010218351, 1)
+sky_cover = SubResource("NoiseTexture2D_7mycd")
+ground_horizon_color = Color(0.7993054, 0.6318333, 0, 1)
 
 [sub_resource type="Sky" id="Sky_5vw27"]
 sky_material = SubResource("ProceduralSkyMaterial_272bh")
