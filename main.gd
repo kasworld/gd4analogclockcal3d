@@ -13,10 +13,11 @@ func reset_pos()->void:
 	$ClockSect.position = anipos_list[0]
 	$Calendar3d.position = anipos_list[1]
 func start_move_animation():
-	main_animation.start_move("clock",$ClockSect, anipos_list[0], anipos_list[1], 1)
-	main_animation.start_rotation_subfield("clock",$ClockSect, Vector3.Axis.AXIS_Y, rot_args[0][0] , rot_args[0][1], 1)
-	main_animation.start_move("clock",$Calendar3d, anipos_list[1], anipos_list[0], 1)
-	main_animation.start_rotation_subfield("clock",$Calendar3d, Vector3.Axis.AXIS_Y, rot_args[1][0], rot_args[1][1], 1)
+	const ani_speed :float = 2
+	main_animation.start_move("clock",$ClockSect, anipos_list[0], anipos_list[1], ani_speed)
+	main_animation.start_rotation_subfield("clock",$ClockSect, Vector3.Axis.AXIS_Y, rot_args[0][0] , rot_args[0][1], ani_speed)
+	main_animation.start_move("clock",$Calendar3d, anipos_list[1], anipos_list[0], ani_speed)
+	main_animation.start_rotation_subfield("clock",$Calendar3d, Vector3.Axis.AXIS_Y, rot_args[1][0], rot_args[1][1], ani_speed)
 	anipos_list = [anipos_list[1], anipos_list[0]]
 	rot_args = [rot_args[1], rot_args[0]]
 
