@@ -96,6 +96,7 @@ func _process(_delta: float) -> void:
 	if old_minute_dict["minute"] != time_now_dict["minute"]:
 		old_minute_dict = time_now_dict
 		start_move_animation()
+		$Calendar3d.update_calender_if_day_changed()
 
 var key2fn :Dictionary[Key, Callable] = {
 	KEY_ESCAPE:_on_button_esc_pressed,

@@ -13,9 +13,7 @@ var infolabel : MeshInstance3D
 var info_text :InfoText
 
 func init(r :float,d:float, fsize :float, config :Dictionary, backplane:bool=true) -> void:
-	$AnalogClock3d.init(r, d, fsize, 9.0, backplane)
-	#$AnalogClock3d.rotate_y(PI/2)
-	#$AnalogClock3d.rotate_x(PI/2)
+	$AnalogClock3d.init(r, d, fsize, backplane)
 
 	var text_depth = d*0.2
 	# add time label
@@ -38,6 +36,7 @@ func init(r :float,d:float, fsize :float, config :Dictionary, backplane:bool=tru
 
 var old_time_dict = {"second":0} # datetime dict
 func _process(_delta: float) -> void:
+	$AnalogClock3d.update_clock(Time.get_unix_time_from_system(), 9.0)
 	var time_now_dict = Time.get_datetime_dict_from_system()
 	if old_time_dict["second"] != time_now_dict["second"]:
 		old_time_dict = time_now_dict
