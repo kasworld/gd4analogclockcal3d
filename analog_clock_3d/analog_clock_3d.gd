@@ -2,7 +2,6 @@ extends Node3D
 class_name AnalogClock3D
 
 enum BarAlign {None, In,Mid,Out}
-enum NumberType {None, Hour,Minute,Degree}
 
 var font := preload("res://font/HakgyoansimBareondotumR.ttf")
 
@@ -37,8 +36,8 @@ func init(r :float, d :float, fsize :float, backplane:bool=true) -> AnalogClock3
 	$BackPlane.visible = backplane
 	make_hands(r, d)
 	make_dial_bar_multi(r*0.88, d, BarAlign.Mid)
-	make_dial_num(r*0.95, d, fsize*0.8, NumberType.Minute)
-	make_dial_num(r*0.8, d, fsize, NumberType.Hour)
+	make_dial_num(r*0.95, d, fsize*0.8, range(0,60,5))
+	make_dial_num(r*0.8, d, fsize, [12,1,2,3,4,5,6,7,8,9,10,11] )
 
 	return self
 
@@ -89,32 +88,16 @@ func make_dial_bar_multi(r :float, d:float, align :BarAlign):
 		t = t.scaled_local( bar_size )
 		$DialBars.multimesh.set_instance_transform(i,t)
 
-func make_dial_num(r :float, d:float, fsize :float, nt :NumberType)->void:
+func make_dial_num(r :float, d:float, fsize :float, numlist :Array)->void:
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = colors.dial_num
 	var bar_height := d*0.2
-	match nt:
-		NumberType.Hour:
-			for i in range(1,13):
-				var rad := deg_to_rad( i*(360.0/12.0) )
-				var bar_center := Vector3(sin(rad)*r, cos(rad)*r, 0)
-				var t := new_text(fsize, bar_height, mat, "%d" % [i])
-				t.position = bar_center
-				add_child(t)
-		NumberType.Minute:
-			for i in range(0,60,5):
-				var rad := deg_to_rad( i*(360.0/60.0) )
-				var bar_center := Vector3(sin(rad)*r, cos(rad)*r, 0)
-				var t := new_text(fsize, bar_height, mat, "%d" % [i])
-				t.position = bar_center
-				add_child(t)
-		NumberType.Degree:
-			for i in range(0,360,30):
-				var rad := deg_to_rad( i*(360.0/360.0) )
-				var bar_center := Vector3(sin(rad)*r, cos(rad)*r, 0)
-				var t := new_text(fsize, bar_height, mat, "%d" % [i])
-				t.position = bar_center
-				add_child(t)
+	var unit_rad := 2*PI/numlist.size()
+	for i in numlist.size():
+		var rad := i*unit_rad
+		var t := new_text(fsize, bar_height, mat, "%s" % numlist[i])
+		t.position = Vector3(sin(rad)*r, cos(rad)*r, 0)
+		add_child(t)
 
 func new_text(fsize :float, fdepth :float, mat :Material, text :String) -> MeshInstance3D:
 	var mesh := TextMesh.new()
