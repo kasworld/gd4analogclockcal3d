@@ -111,22 +111,17 @@ func new_text(fsize :float, fdepth :float, mat :Material, text :String) -> MeshI
 	return sp
 
 ## ms : Time.get_unix_time_from_system() , tz_shift : 9
-func update_clock(ms :float , tz_shift :float):
-	#var ms := Time.get_unix_time_from_system()
+func update_clock(ms :float, tz_shift :float):
+	var hands_rad := calc_rad_for_hand(ms, tz_shift)
+	$SecondBase.rotation.z = -hands_rad[2]
+	$MinuteBase.rotation.z = -hands_rad[1]
+	$HourBase.rotation.z = -hands_rad[0]
+
+## [hour, minute, second]
+func calc_rad_for_hand(ms :float, tz_shift :float) -> Array[float]:
 	var second := ms - int(ms/60)*60
 	ms = ms / 60
 	var minute := ms - int(ms/60)*60
 	ms = ms / 60
 	var hour := ms - int(ms/24)*24 + tz_shift
-	$SecondBase.rotation.z = -second2rad(second)
-	$MinuteBase.rotation.z = -minute2rad(minute)
-	$HourBase.rotation.z = -hour2rad(hour)
-
-func second2rad(sec :float) -> float:
-	return 2.0*PI/60.0*sec
-
-func minute2rad(m :float) -> float:
-	return 2.0*PI/60.0*m
-
-func hour2rad(hour :float) -> float:
-	return 2.0*PI/12.0*hour
+	return [PI/6.0*hour, PI/30.0*minute, PI/30.0*second]
