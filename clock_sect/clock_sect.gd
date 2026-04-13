@@ -36,8 +36,9 @@ func init(r :float,d:float, fsize :float, config :Dictionary, backplane:bool=tru
 
 var old_time_dict = {"second":0} # datetime dict
 func _process(_delta: float) -> void:
-	$AnalogClock3d.update_clock(Time.get_unix_time_from_system(), 9.0)
-	var time_now_dict = Time.get_datetime_dict_from_system()
+	var today := AnalogClock3D.get_localtime_from_system()
+	$AnalogClock3d.update_clock(today)
+	var time_now_dict := Time.get_datetime_dict_from_unix_time(today as int)
 	if old_time_dict["second"] != time_now_dict["second"]:
 		old_time_dict = time_now_dict
 		set_mesh_text(timelabel, "%02d:%02d:%02d" % [time_now_dict["hour"] , time_now_dict["minute"] ,time_now_dict["second"]  ] )
